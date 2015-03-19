@@ -3,7 +3,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -18,3 +19,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# ThinkPHP 缓存
+.APP/Runtime/
