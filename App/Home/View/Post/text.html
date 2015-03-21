@@ -15,22 +15,20 @@
 </block>
 <block name="main">
     <div class="blog-post">
-        <form>
-            <div class="form-group">
-                <label for="title">标题 <span class="optional">(可不填)</span></label>
-                <input type="text" class="form-control" id="title" name="title">
-            </div>
-            <div class="form-group">
-                <label for="content">内容</label>
-                <include file="Post/editor" form_name="content" />
-            </div>
-            <button class="btn btn-default pull-left">取消</button>
-            <button type="submit" class="btn btn-primary pull-right">保存</button>
-        </form>
+        <div class="form-group">
+            <label for="title">标题 <span class="optional">(可不填)</span></label>
+            <input type="text" class="form-control hide-data" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="content">内容</label>
+            <include file="Post/editor" form_name="content" />
+        </div>
+        <button class="btn btn-default pull-left">取消</button>
+        <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
     </div><!-- /.blog-post -->
     <script type="text/javascript">
     $(function(){
-    	updateAlert('asd');
+
     })
     </script>
 </block>

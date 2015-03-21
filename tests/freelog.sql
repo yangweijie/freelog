@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `fl_post` (
   `content` text NOT NULL COMMENT '内容',
   `status` int(1) NOT NULL DEFAULT '1' COMMENT 'status -1删除 0-草稿 1-正常',
   `create_at` datetime NOT NULL COMMENT '创建时间'
+  `update_at` datetime NOT NULL COMMENT '更新时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='日志表' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

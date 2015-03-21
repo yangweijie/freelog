@@ -29,12 +29,12 @@ class EmptyController extends RestController{
         $table = $this->resource_name;
         if(!in_array($this->otherResource, $table)){
             //先判断表存不存在
-            if(!M()->query("SHOW TABLES LIKE '{$table}'")){
+            if(!M()->query("SHOW TABLES LIKE '".C('DB_PREFIX')."{$table}'")){
                $this->response(array('code'=>404, 'message'=> "Resource '{$this->resource_name}' doesn't exist"), $this->defaultType, 404);
             }
         }
-
-        $model = D($table);
+        // $model = new PostModel();
+        $model = D(ucfirst($table));
         $result = true;
         $code = 404;
         switch ($this->_method){
@@ -75,8 +75,9 @@ class EmptyController extends RestController{
                 $posts = $model->create();
                 if(false == $posts){
                     $data = $model->getError();
+                    $result = false;
                 }else{
-                    $id = $model->add($posts);
+                    $id = $model->add();
                     if(!$id){
                         $result = false;
                     }else{
@@ -98,13 +99,13 @@ class EmptyController extends RestController{
                 break;
         }
         if($result){
-            $tihs->success($data, $code);
+            $this->success($data, $code);
         }else{
-            $this->error($data, $code);
+            $this->success($data, $code);
         }
     }
 
-    protected function success($data, $code = 200){
+    public function success($data, $code=200){
         $response = array(
             'code'=>$code,
             'data'=>$data,
@@ -113,13 +114,13 @@ class EmptyController extends RestController{
         $this->response($response, $this->defaultType, $code);
     }
 
-    protected function error($data = '', $code = 404){
-        $response = array(
+    public function error($data, $code=404){
+          $response = array(
             'code'=>$code,
             'message'=>"{$this->resource_name} {$this->messages[$this->_method]} failed"
         );
         if($data)
-            $response['message'] .= " reason: {$data}";
+            $response['message'] .= ". reason: {$data}";
         $this->response($response, $this->defaultType, $code);
     }
 }

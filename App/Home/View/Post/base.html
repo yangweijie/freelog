@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="__BOWER__/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
         <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <link rel="stylesheet" href="__BOWER__/jqnotifybar/css/jquery.notifyBar.css">
+        <script type="text/javascript" src="__BOWER__/jqnotifybar/jquery.notifyBar.js"></script>
 
         <script src="__BOWER__/jquery.tagsinput/jquery.tagsinput.js"></script>
         <link rel="stylesheet" href="__BOWER__/jquery.tagsinput/jquery.tagsinput.css" />
@@ -18,10 +20,6 @@
     </head>
 
     <body>
-        <div class="message success" id="top-alert">
-            <button type="button" class="close">&times;</button>
-            <ul><li>插件已经被禁用</li></ul>
-        </div>
         <div class="blog-masthead">
             <div class="container">
                 <nav class="blog-nav">
@@ -37,6 +35,7 @@
         <div class="container">
             <block name="header"></block>
             <div class="row">
+                <form class="post">
                 <div class="col-sm-8 blog-main">
                     <block name="main"></block>
                 </div><!-- /.blog-main -->
@@ -48,18 +47,18 @@
                             <form>
                                 <div class="form-group">
                                     <label for="title">发布时间</label>
-                                    <select name="create_time_choose" class="form-control" id="create_time_choose">
+                                    <select name="create_time_choose" class="form-control hide-data" id="create_time_choose">
                                         <option value="now">现在发布</option>
                                         <option value="choose">定时发布</option>
                                     </select>
                                 </div>
-                                <div class="input-group hidden">
-                                    <input type="datetime" name="deadline" class="form-control" id="deadline">
+                                <div class="form-group input-group hidden">
+                                    <input type="datetime" name="deadline" class="form-control hide-data" id="deadline">
                                     <span class="input-group-addon glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <textarea name="tags" id="tags" placeholder="添加标签，用逗号或回车分割" class="form-control" style="height:90px"></textarea>
+                                    <textarea name="tags" id="tags" placeholder="添加标签，用逗号或回车分割" class="form-control hide-data" style="height:90px"></textarea>
                                 </div>
                             </form>
                         </div>
@@ -92,7 +91,7 @@
                         </script>
                     </block>
                 </div><!-- /.blog-sidebar -->
-
+                </form>
             </div><!-- /.row -->
 
         </div><!-- /.container -->
