@@ -1,0 +1,43 @@
+<extend name="Post/base" />
+
+<block name="style">
+	<link rel="stylesheet" href="__BOWER__/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <script src="__BOWER__/jquery.tagsinput/jquery.tagsinput.js"></script>
+	<link rel="stylesheet" href="__BOWER__/jquery.tagsinput/jquery.tagsinput.css" />
+</block>
+<block name="header">
+<div class="blog-header">
+    <h1 class="blog-title">发布文字</h1>
+</div>
+</block>
+<block name="main">
+    <div class="blog-post">
+        <form>
+            <div class="form-group">
+                <label for="title">标题 <span class="optional">(可不填)</span></label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="form-group">
+                <label for="content">内容</label>
+                <include file="Post/editor" form_name="content" />
+            </div>
+            <button class="btn btn-default pull-left">取消</button>
+            <button type="submit" class="btn btn-primary pull-right">保存</button>
+        </form>
+    </div><!-- /.blog-post -->
+    <script type="text/javascript">
+    $(function(){
+    	updateAlert('asd');
+    })
+    </script>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+</block>

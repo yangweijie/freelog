@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?><embed autostart="true" src="http://v.youku.com/v_show/id_XODk4MjU3MjYw.html?f=23575390&ev=2&from=y1.1-2.10001-0.1-1" wmode="transparent" allowfullscreen="true" type="application/x-shockwave-flash" width="800" height="600"></embed>

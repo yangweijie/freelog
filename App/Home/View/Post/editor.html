@@ -1,0 +1,22 @@
+<script id="[form_name]" name="[form_name]" type="text/plain"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+$(function(){
+	var ue_[form_name] = UE.getEditor('[form_name]',{
+		serverUrl :'{:U('Home/Upload/ueditor')}',
+		toolbars: [
+			[
+				'bold', 'underline', 'strikethrough', '|',
+				'justifyleft', 'justifycenter', 'justifyright', '|',
+				'insertorderedlist', 'insertunorderedlist','blockquote', '|',
+				'insertimage','link', 'unlink', '|',
+				'pagebreak', 'source', 'insertcode','|',
+				'help','fullscreen'
+			]
+		],
+		elementPathEnabled : false,
+		initialFrameHeight: 286,
+		initialFrameHeight: 286
+	});
+})
+</script>

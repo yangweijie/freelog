@@ -15,19 +15,19 @@ use Think\Controller;
  */
 class RestController extends Controller {
     // 当前请求类型
-    protected   $_method        =   ''; 
+    protected   $_method        =   '';
     // 当前请求的资源类型
-    protected   $_type          =   ''; 
+    protected   $_type          =   '';
     // REST允许的请求类型列表
-    protected   $allowMethod    =   array('get','post','put','delete'); 
+    protected   $allowMethod    =   array('get','post','put','delete');
     // REST默认请求类型
     protected   $defaultMethod  =   'get';
     // REST允许请求的资源类型列表
-    protected   $allowType      =   array('html','xml','json','rss'); 
+    protected   $allowType      =   array('html','xml','json','rss');
     // 默认的资源类型
     protected   $defaultType    =   'html';
     // REST允许输出的资源类型列表
-    protected   $allowOutputType=   array(  
+    protected   $allowOutputType=   array(
                     'xml' => 'application/xml',
                     'json' => 'application/json',
                     'html' => 'text/html',
@@ -55,7 +55,7 @@ class RestController extends Controller {
             $method = $this->defaultMethod;
         }
         $this->_method = $method;
-        
+
         parent::__construct();
     }
 
@@ -110,7 +110,7 @@ class RestController extends Controller {
             'csv'   =>  'text/csv',
             'html'  =>  'text/html,application/xhtml+xml,*/*'
         );
-        
+
         foreach($type as $key=>$val){
             $array   =  explode(',',$val);
             foreach($array as $k=>$v){
@@ -226,7 +226,7 @@ class RestController extends Controller {
      * @param integer $code HTTP状态
      * @return void
      */
-    protected function response($data,$type='',$code=200) {
+    protected function response($data, $type='',$code=200) {
         $this->sendHttpStatus($code);
         exit($this->encodeData($data,strtolower($type)));
     }
