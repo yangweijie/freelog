@@ -1,0 +1,54 @@
+<div id="uploader">
+    <p>您的浏览器不支持Flash或HTML5。</p>
+</div>
+
+<script type="text/javascript">
+// Initialize the widget when the DOM is ready
+$(function() {
+    $("#uploader").plupload({
+        // General settings
+        runtimes : 'html5,flash,html4',
+        url : "{:U('Home/Upload/plupload','action=uploadimage')}",
+        file_data_name  : "upfile",
+        // Maximum file size
+        max_file_size : '2mb',
+        max_file_count: '40',
+
+        // chunk_size: '1mb',
+
+        // Resize images on clientside if we can
+        resize : {
+            width : 200,
+            height : 200,
+            quality : 90,
+            crop: true // crop to exact dimensions
+        },
+
+        // Specify what files to browse for
+        filters : [
+            {title : "Image files", extensions : "jpg,gif,png,jpeg"},
+        ],
+
+        // Rename files by clicking on their titles
+        rename: true,
+
+        // Sort files
+        sortable: true,
+
+        // Enable ability to drag'n'drop files onto the widget (currently only HTML5 supports that)
+        dragdrop: true,
+
+        // Views to activate
+        views: {
+            list: false,
+            thumbs: true, // Show thumbs
+            active: 'thumbs'
+        },
+
+        // Flash settings
+        flash_swf_url : '/plupload/js/Moxie.swf'
+
+        // Silverlight settings
+    });
+});
+</script>

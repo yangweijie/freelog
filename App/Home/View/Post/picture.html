@@ -1,0 +1,40 @@
+<extend name="Post/base" />
+
+<block name="header">
+<div class="blog-header">
+    <h1 class="blog-title">发布图片</h1>
+</div>
+</block>
+<block name="main">
+    <div class="blog-post" id="picture">
+        <div class="form-group">
+            <include file="Post/pic" form_name="content" form_value="" />
+        </div>
+        <div class="form-group">
+            <label for="content">描述</label>
+            <include file="Post/editor" form_name="description" form_value="" height="112" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="type" value="{$type}" class="hide-data">
+            <button class="btn btn-default pull-left">取消</button>
+            <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
+        </div>
+    </div><!-- /.blog-post -->
+    <script type="text/javascript">
+    $(function(){
+
+    })
+    </script>
+</block>
+
+<block name="script">
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/flick/jquery-ui.css" type="text/css" />
+<link rel="stylesheet" href="__BOWER__/plupload/js/jquery.ui.plupload/css/jquery.ui.plupload.css" type="text/css" />
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
+<!-- production -->
+<script type="text/javascript" src="__BOWER__/plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="__BOWER__/plupload/js/jquery.ui.plupload/jquery.ui.plupload.js"></script>
+<script type="text/javascript" src="__BOWER__/plupload/js/i18n/zh_CN.js"></script>
+</block>
