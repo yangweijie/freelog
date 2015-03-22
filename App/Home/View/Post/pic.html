@@ -17,12 +17,12 @@ $(function() {
         // chunk_size: '1mb',
 
         // Resize images on clientside if we can
-        resize : {
-            width : 200,
-            height : 200,
-            quality : 90,
-            crop: true // crop to exact dimensions
-        },
+        // resize : {
+        //     width : 200,
+        //     height : 200,
+        //     quality : 90,
+        //     crop: true // crop to exact dimensions
+        // },
 
         // Specify what files to browse for
         filters : [
@@ -46,9 +46,163 @@ $(function() {
         },
 
         // Flash settings
-        flash_swf_url : '/plupload/js/Moxie.swf'
+        flash_swf_url : '/plupload/js/Moxie.swf',
+        preinit : {
+            Init: function(up, info) {
+            },
 
-        // Silverlight settings
+            UploadFile: function(up, file) {
+
+            }
+        },
+
+        // Post init events, bound after the internal events
+        init : {
+            Browse: function(up) {
+                // Called when file picker is clicked
+                log('[Browse]');
+            },
+
+            Refresh: function(up) {
+                // Called when the position or dimensions of the picker change
+                log('[Refresh]');
+            },
+
+            StateChanged: function(up) {
+                // Called when the state of the queue is changed
+                log('[StateChanged]', up.state == plupload.STARTED ? "STARTED" : "STOPPED");
+            },
+
+            QueueChanged: function(up) {
+                // Called when queue is changed by adding or removing files
+                log('[QueueChanged]');
+            },
+
+            OptionChanged: function(up, name, value, oldValue) {
+                // Called when one of the configuration options is changed
+                log('[OptionChanged]', 'Option Name: ', name, 'Value: ', value, 'Old Value: ', oldValue);
+            },
+
+            BeforeUpload: function(up, file) {
+                // Called right before the upload for a given file starts, can be used to cancel it if required
+                log('[BeforeUpload]', 'File: ', file);
+            },
+
+            UploadProgress: function(up, file) {
+                // Called while file is being uploaded
+                log('[UploadProgress]', 'File:', file, "Total:", up.total);
+            },
+
+            FileFiltered: function(up, file) {
+                // Called when file successfully files all the filters
+                log('[FileFiltered]', 'File:', file);
+            },
+
+            FilesAdded: function(up, files) {
+                // Called when files are added to queue
+                log('[FilesAdded]');
+
+                plupload.each(files, function(file) {
+                    log('  File:', file);
+                    var index = $('.plupload_file_alt').length;
+                    var tmp = [
+                        '<div class="plupload_file_alt">',
+                            '<input type="text" name="content['+index+'][alt]" class="col-sm-8 hide-data" placeholder="请填写描述">',
+                            '<input type="hidden" name="content['+index+'][path]" class="hide-data">',
+                        '</div>'
+                    ];
+                    $('#'+file.id).append(tmp.join(''));
+                });
+                $('.plupload_file_alt input:text').on('click', function(){
+                    $(this).focus();
+                });
+            },
+
+            FilesRemoved: function(up, files) {
+                // Called when files are removed from queue
+                log('[FilesRemoved]');
+
+                plupload.each(files, function(file) {
+                    log('  File:', file);
+
+                });
+                //处理删除的索引
+                plupload.each(up.files, function(file, i) {
+                    $('#'+file.id+' .plupload_file_alt').find('input:text').attr('name', 'content['+i+'][alt]');
+                    $('#'+file.id+' .plupload_file_alt').find('input:hidden').attr('name', 'content['+i+'][path]');
+                });
+            },
+
+            FileUploaded: function(up, file, info) {
+                // Called when file has finished uploading
+                log('[FileUploaded] File:', file, "Info:", info);
+                var response = JSON.parse(info.response);
+                $('#'+file.id+' .plupload_file_alt input:hidden').val(response.path);
+            },
+
+            ChunkUploaded: function(up, file, info) {
+                // Called when file chunk has finished uploading
+                log('[ChunkUploaded] File:', file, "Info:", info);
+            },
+
+            UploadComplete: function(up, files) {
+                // Called when all files are either uploaded or failed
+                log('[UploadComplete]');
+            },
+
+            Destroy: function(up) {
+                // Called when uploader is destroyed
+                log('[Destroy] ');
+            },
+
+            Error: function(up, args) {
+                // Called when error occurs
+                log('[Error] ', args);
+            }
+        }
     });
+
+    function log() {
+        var str = "";
+
+        plupload.each(arguments, function(arg) {
+            var row = "";
+
+            if (typeof(arg) != "string") {
+                plupload.each(arg, function(value, key) {
+                    // Convert items in File objects to human readable form
+                    if (arg instanceof plupload.File) {
+                        // Convert status to human readable
+                        switch (value) {
+                            case plupload.QUEUED:
+                                value = 'QUEUED';
+                                break;
+
+                            case plupload.UPLOADING:
+                                value = 'UPLOADING';
+                                break;
+
+                            case plupload.FAILED:
+                                value = 'FAILED';
+                                break;
+
+                            case plupload.DONE:
+                                value = 'DONE';
+                                break;
+                        }
+                    }
+
+                    if (typeof(value) != "function") {
+                        row += (row ? ', ' : '') + key + '=' + value;
+                    }
+                });
+
+                str += row + " ";
+            } else {
+                str += arg + " ";
+            }
+            console.log(str);
+        });
+    }
 });
 </script>
