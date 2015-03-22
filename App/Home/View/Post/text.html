@@ -1,30 +1,25 @@
 <extend name="Post/base" />
 
-<block name="style">
-	<link rel="stylesheet" href="__BOWER__/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
-    <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="__BOWER__/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-
-    <script src="__BOWER__/jquery.tagsinput/jquery.tagsinput.js"></script>
-	<link rel="stylesheet" href="__BOWER__/jquery.tagsinput/jquery.tagsinput.css" />
-</block>
 <block name="header">
 <div class="blog-header">
     <h1 class="blog-title">发布文字</h1>
 </div>
 </block>
 <block name="main">
-    <div class="blog-post">
+    <div class="blog-post" id="text">
         <div class="form-group">
             <label for="title">标题 <span class="optional">(可不填)</span></label>
             <input type="text" class="form-control hide-data" id="title" name="title">
         </div>
         <div class="form-group">
             <label for="content">内容</label>
-            <include file="Post/editor" form_name="content" />
+            <include file="Post/editor" form_name="content" form_value="" height="286" />
         </div>
-        <button class="btn btn-default pull-left">取消</button>
-        <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
+        <div class="form-group">
+            <input type="hidden" name="type" value="{$type}" class="hide-data">
+            <button class="btn btn-default pull-left">取消</button>
+            <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
+        </div>
     </div><!-- /.blog-post -->
     <script type="text/javascript">
     $(function(){
@@ -34,8 +29,5 @@
 </block>
 
 <block name="script">
-    <script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.js"></script>
-    <!-- 实例化编辑器 -->
+
 </block>

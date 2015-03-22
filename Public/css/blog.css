@@ -193,7 +193,17 @@ div.tagsinput span.tag {
 div.tagsinput span.tag a {
   color: #fff !important;
 }
+.form-control.edui-default{
+  padding: 0;
+  border: 0;
+}
+#text .form-control.edui-default{
+  height: 341px; /*比文本框设定的高度多了55px*/
+}
+#picture .form-control.edui-default{
+  height: 167px; /*比文本框设定的高度多了55px*/
+}
 
-.alert{
-  margin-bottom: 0 !important;
+.plupload_header{
+  display: none;
 }

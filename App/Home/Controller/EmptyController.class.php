@@ -4,11 +4,23 @@ use Think\Controller;
 class EmptyController extends Controller{
 
 	public function _empty($action){
-		switch (strtolower(CONTROLLER_NAME)) {
-			case 'text':
-				if('new' == $action)
-					$this->display('Post/text');
-				break;
+		$resource = strtolower(CONTROLLER_NAME);
+		$this->assign('type', $resource);
+		if(in_array($resource, array('text', 'picture', 'music', 'video'))){
+			if(in_array($action, array('new', 'edit'))){
+				if('edit' == $action){
+					$id = intval(I('id'));
+					if($post = M('post')->find($id))
+						$this->assign('post', $post);
+					else
+						$this->error('错误的记录');
+				}
+				$this->display('Post/'.$resource);
+			}else{
+				$this->error('错误的请求');
+			}
+		}else{
+			$this->error('错误的请求');
 		}
 	}
 }

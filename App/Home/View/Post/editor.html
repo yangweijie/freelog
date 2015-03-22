@@ -1,4 +1,4 @@
-<script id="[form_name]" name="[form_name]" type="text/plain" class="hide-data"></script>
+<textarea name="[form_name]" id="[form_name]" cols="30" rows="15" class="form-control hide-data">[form_value]</textarea>
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
 $(function(){
@@ -15,8 +15,9 @@ $(function(){
 			]
 		],
 		elementPathEnabled : false,
-		initialFrameHeight: 286,
-		initialFrameHeight: 286
+		initialFrameHeight: [height],
+		minFrameHeight: [height],
+		autoHeightEnabled: false
 	});
 })
 </script>
