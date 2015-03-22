@@ -109,7 +109,7 @@ class EmptyController extends RestController{
         $response = array(
             'code'=>$code,
             'data'=>$data,
-            'message'=>"{$this->resource_name} {$this->messages[$this->_method]} succeed"
+            'info'=>"{$this->resource_name} {$this->messages[$this->_method]} succeed"
         );
         $this->response($response, $this->defaultType, $code);
     }
@@ -117,10 +117,10 @@ class EmptyController extends RestController{
     public function error($data, $code=404){
           $response = array(
             'code'=>$code,
-            'message'=>"{$this->resource_name} {$this->messages[$this->_method]} failed"
+            'info'=>"{$this->resource_name} {$this->messages[$this->_method]} failed"
         );
         if($data)
-            $response['message'] .= ". reason: {$data}";
+            $response['info'] .= ". reason: {$data}";
         $this->response($response, $this->defaultType, $code);
     }
 }

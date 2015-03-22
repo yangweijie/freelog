@@ -6,6 +6,9 @@
 </div>
 </block>
 <block name="main">
+    <script type="text/javascript">
+    var up_obj;
+    </script>
     <div class="blog-post" id="picture">
         <div class="form-group">
             <include file="Post/pic" form_name="content" form_value="" />
@@ -17,12 +20,19 @@
         <div class="form-group">
             <input type="hidden" name="type" value="{$type}" class="hide-data">
             <button class="btn btn-default pull-left">取消</button>
-            <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
+            <button type="button" class="btn btn-primary pull-right" hide-data="true" target-form="post" href="/api.php/post" id="pic_submit_btn">保存</button>
         </div>
     </div><!-- /.blog-post -->
     <script type="text/javascript">
     $(function(){
-
+        $('#pic_submit_btn').on('click', function(){
+            if(up_obj.total.uploaded == 0){
+                updateAlert('请至少上传一张图片', 'error');
+            }else{
+                ajaxForm(this, $(this).attr('href'), $('.hide-data').serialize());
+            }
+            return false;
+        });
     })
     </script>
 </block>

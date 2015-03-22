@@ -39,7 +39,7 @@ $(function(){
 	});
 
 	//ajax post submit请求
-	$('.ajax-post').on('click', function(e){
+	$('.ajax-post').on('click', function(){
 		var target,query,form;
 		var target_form = $(this).attr('target-form');
 		var that = this;
@@ -96,9 +96,7 @@ $(function(){
 						updateAlert(data.info ,'success');
 					}
 					setTimeout(function(){
-						if( $(that).hasClass('no-refresh')){
-							$(that).removeClass('disabled').prop('disabled',false);
-						}
+						$(that).removeClass('disabled').prop('disabled',false);
 						if(data.url)
 							location.href = data.url;
 					},1500);
@@ -115,9 +113,37 @@ $(function(){
 		}
 		return false;
 	});
-
 })
 
+function ajaxForm(ele, target, data, callback){
+	var that = ele;
+	var callback = callback || false;
+	$.post(target,data).success(function(data){
+		if (data.code >= 200 && data.code < 400) {
+			console.log('success');
+			if (data.url) {
+				updateAlert(data.info + ' 页面即将自动跳转~','success');
+			}else{
+				updateAlert(data.info ,'success');
+			}
+			if(callback)
+				callback();
+			setTimeout(function(){
+				$(that).removeClass('disabled').prop('disabled',false);
+				if(data.url)
+					location.href = data.url;
+			},1500);
+		}else{
+			updateAlert(data.info, 'error');
+			setTimeout(function(){
+				$(that).removeClass('disabled').prop('disabled',false);
+				if (data.url) {
+					location.href = data.url;
+				}
+			}, 1500);
+		}
+	});
+}
 /**顶部通知栏*/
 var content = $('body');
 

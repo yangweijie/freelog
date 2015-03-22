@@ -49,6 +49,8 @@ $(function() {
         flash_swf_url : '/plupload/js/Moxie.swf',
         preinit : {
             Init: function(up, info) {
+                // log('[Init]', 'Info:', info, 'Features:', up.features);
+                up_obj = up;
             },
 
             UploadFile: function(up, file) {
@@ -58,6 +60,16 @@ $(function() {
 
         // Post init events, bound after the internal events
         init : {
+            PostInit: function() {
+                // Called after initialization is finished and internal event handlers bound
+                log('[PostInit]');
+                console.log(uploader);
+                // document.getElementById('uploadfiles').onclick = function() {
+                //     uploader.start();
+                //     return false;
+                // };
+            },
+
             Browse: function(up) {
                 // Called when file picker is clicked
                 log('[Browse]');
