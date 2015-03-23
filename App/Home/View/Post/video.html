@@ -1,0 +1,118 @@
+<extend name="Post/base" />
+
+<block name="header">
+<div class="blog-header">
+    <h1 class="blog-title">发布视频</h1>
+</div>
+</block>
+
+<block name="main">
+    <div class="modal fade" id="video" tabindex="-1" role="dialog" aria-labelledby="videolLabel" aria-hidden="true" data-backdrop="static">
+    </div>
+    <div class="modal fade" id="player" tabindex="-1" role="dialog" aria-labelledby="videolLabel" aria-hidden="true" data-backdrop="static">
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    </div>
+    <div class="hide" id="loading_tpl">
+        <div class="modal-dialog wt400">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">正从网上获取视频真实地址：</h4>
+                </div>
+                <div class="modal-body">
+                    正在解析中...
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar" style="width: 1%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blog-post" id="video">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <include file="Post/video_up" button_text="上传" file_type_desc="video files" file_type_exts="*.mp4" target="Upload/ajaxUpload" upload_callback="uploadVideofile_upload" btn_width="70" btn_height="34" model="file" field="field" size="100MB" />
+                </div>
+                <input type="text" name="url" class="form-control" id="exampleInputAmount" placeholder="请输入来自优酷/土豆/酷六/56/搜狐/新浪视频网站的播放页面地址,注意不是FLASH地址" title="请输入来自优酷/土豆/酷六/56/搜狐/新浪视频网站的播放页面地址,注意不是FLASH地址">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-loading-text="正在解析中..." action="{:U('Post/parseVideo')}" id="search_form">解析<i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="ajaxReturn" class="form-inline"></div>
+
+        <div class="form-group">
+            <label for="content">描述</label>
+            <include file="Post/editor" form_name="description" form_value="" height="112" />
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="id" value="{$id|default=0}" class="hide-data">
+            <input type="hidden" name="type" value="{$type}" class="hide-data">
+            <button class="btn btn-default pull-left">取消</button>
+            <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
+        </div>
+    </div><!-- /.blog-post -->
+    <script type="text/javascript">
+    $(function(){
+        //解析
+        $('#search_form').on('click',function() {
+            if (!is_login) {
+                notify('请先登录');
+                return false;
+            }
+
+            var url = $(this).attr('action');
+            var $search = $(this).closest('.form-group').find('[name=url]');
+            console.log($search);
+            var search = $search.val();
+            console.log(search);
+            search = $.trim(search);
+            if (search == '')
+                return false;
+
+            $('#myModal').html($('#loading_tpl').html());
+            var bar = $('#myModal .progress-bar');
+            var process = setInterval(function() {
+                bar.width(function(n, c) {
+                    return c + 10;
+                });
+            }, 1000);
+            // search = convert_url(search);
+            var $btn = $(this);
+            $btn.button('loading');
+
+            $('#myModal').modal('show');
+            $.ajax({
+                url: url,
+                type: 'post',
+                data: {url: search},
+                success: function(data) {
+                    clearInterval(process);
+                    bar.width('670');
+                    if (data.status){
+                        $('#myModal').modal('hide');
+                        $('#ajaxReturn').html(data.tpl);
+                    }else{
+                        $('#myModal .modal-body').html(data.info);
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $('#myModal .modal-body').html('网络出错了');
+                },
+                complete: function(XMLHttpRequest, textStatus) {
+                    $btn.button('reset');
+                }
+            });
+            return false;
+        });
+    })
+    </script>
+</block>
+
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__BOWER__/uploadify/uploadify.css"/>
+    <script src="__BOWER__/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+</block>

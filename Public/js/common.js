@@ -12,9 +12,9 @@ $(function(){
 			$.get(target).success(function(data){
 				if (data.code >= 200 && data.code < 400) {
 					if (data.url) {
-						updateAlert(data.info + ' 页面即将自动跳转~','success');
+						notify(data.info + ' 页面即将自动跳转~','success');
 					}else{
-						updateAlert(data.info,'success');
+						notify(data.info,'success');
 					}
 					setTimeout(function(){
 						if (data.url) {
@@ -26,7 +26,7 @@ $(function(){
 						}
 					},1500);
 				}else{
-					updateAlert(data.info, 'error');
+					notify(data.info, 'error');
 					setTimeout(function(){
 						if (data.url) {
 							location.href = data.url;
@@ -91,9 +91,9 @@ $(function(){
 				if (data.code >= 200 && data.code < 400) {
 					console.log('success');
 					if (data.url) {
-						updateAlert(data.info + ' 页面即将自动跳转~','success');
+						notify(data.info + ' 页面即将自动跳转~','success');
 					}else{
-						updateAlert(data.info ,'success');
+						notify(data.info ,'success');
 					}
 					setTimeout(function(){
 						$(that).removeClass('disabled').prop('disabled',false);
@@ -101,7 +101,7 @@ $(function(){
 							location.href = data.url;
 					},1500);
 				}else{
-					updateAlert(data.info, 'error');
+					notify(data.info, 'error');
 					setTimeout(function(){
 						$(that).removeClass('disabled').prop('disabled',false);
 						if (data.url) {
@@ -122,9 +122,9 @@ function ajaxForm(ele, target, data, callback){
 		if (data.code >= 200 && data.code < 400) {
 			console.log('success');
 			if (data.url) {
-				updateAlert(data.info + ' 页面即将自动跳转~','success');
+				notify(data.info + ' 页面即将自动跳转~','success');
 			}else{
-				updateAlert(data.info ,'success');
+				notify(data.info ,'success');
 			}
 			if(callback)
 				callback();
@@ -134,7 +134,7 @@ function ajaxForm(ele, target, data, callback){
 					location.href = data.url;
 			},1500);
 		}else{
-			updateAlert(data.info, 'error');
+			notify(data.info, 'error');
 			setTimeout(function(){
 				$(that).removeClass('disabled').prop('disabled',false);
 				if (data.url) {
@@ -147,9 +147,9 @@ function ajaxForm(ele, target, data, callback){
 /**顶部通知栏*/
 var content = $('body');
 
-window.updateAlert = function (text,c, reload) {
+window.notify = function (text,c, reload) {
 	text = text||'default';
-	c = c||'success';
+	c = c||'error';
     reload = reload || 0;
     $.notifyBar({
         html: text,

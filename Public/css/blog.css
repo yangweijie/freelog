@@ -19,6 +19,17 @@ h6, .h6 {
   color: #333;
 }
 
+.w392{
+  width: 392px !important;
+}
+
+.mr20{
+  margin-right: 20px !important;
+}
+
+.mb20{
+  margin-bottom: 20px !important;
+}
 
 /*
  * Override Bootstrap's default container.
@@ -180,8 +191,8 @@ form .optional{
   font-size: 16px;
 }
 
-.input-group .glyphicon{
-  top:0;
+.input-group-btn .glyphicon{
+  top:3px;
 }
 
 div.tagsinput span.tag {
@@ -200,10 +211,33 @@ div.tagsinput span.tag a {
 #text .form-control.edui-default{
   height: 341px; /*比文本框设定的高度多了55px*/
 }
-#picture .form-control.edui-default{
+#picture .form-control.edui-default, #video .form-control.edui-default{
   height: 167px; /*比文本框设定的高度多了55px*/
 }
 
 .plupload_header{
   display: none;
 }
+
+.input-group-btn:first-child>.btn{
+  border-right: 0;
+}
+
+
+.uploadify-button {
+    border-radius:0;
+    background-color: transparent;
+    background-position: 0px -1px;
+    border: none;
+    padding: 0;
+}
+.uploadify:hover .uploadify-button {
+    background-position: 0px -1px;
+    background-color: transparent;
+}
+
+#upload_win_btn-button{background-color: #fff}
+
+/*#video .uploadify{
+  top:-34px;
+}*/

@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
-class EmptyController extends Controller{
+// use Think\Controller;
+class EmptyController extends HomeController{
 
 	public function _empty($action){
 		$resource = strtolower(CONTROLLER_NAME);

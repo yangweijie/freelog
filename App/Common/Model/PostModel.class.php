@@ -33,10 +33,22 @@ class PostModel extends Model{
 
     //内容字段加密
     public function encode($content){
-        if(in_array(I('post.type'), array('picture', 'music')))
+        if(in_array(I('post.type'), array('picture', 'music', 'video')))
             return json_encode($content);
         else
             return $content;
+    }
+
+    protected function _after_find(&$result,$options) {
+        if(in_array($result['type'], array('picture', 'music', 'video'))){
+            $result['content'] = json_decode($result['content'], 1);
+        }
+    }
+
+    protected function _after_select(&$result,$options){
+        foreach($result as &$record){
+            $this->_after_find($record,$options);
+        }
     }
 
 	// 新增数据前的回调方法

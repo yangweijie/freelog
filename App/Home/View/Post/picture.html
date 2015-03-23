@@ -27,7 +27,7 @@
     $(function(){
         $('#pic_submit_btn').on('click', function(){
             if(up_obj.total.uploaded == 0){
-                updateAlert('请至少上传一张图片', 'error');
+                notify('请至少上传一张图片', 'error');
             }else{
                 ajaxForm(this, $(this).attr('href'), $('.hide-data').serialize());
             }
