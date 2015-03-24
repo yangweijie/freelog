@@ -23,6 +23,7 @@ h6, .h6 {
   width: 392px !important;
 }
 
+.ml4{margin-left: 4px !important;}
 .mr20{
   margin-right: 20px !important;
 }
@@ -236,8 +237,23 @@ div.tagsinput span.tag a {
     background-color: transparent;
 }
 
+
 #upload_win_btn-button{background-color: #fff}
 
-/*#video .uploadify{
-  top:-34px;
-}*/
+#video #cover_upload{
+  display: inline-block;
+}
+
+#video #cover_upload-queue .uploadify-queue-item{
+  float: right;
+  top:-81px;
+}
+
+#video #upload_file-queue {
+  position:fixed;
+  top: 57px;
+  float: left;
+  z-index: 100;
+  width: 100%;
+}
+

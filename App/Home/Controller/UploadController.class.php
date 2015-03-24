@@ -26,17 +26,21 @@ class UploadController extends HomeController {
         die(json_encode($output));
     }
 
-    public function ajaxUpload($params = array('model'=>'File','field'=>'file')) {
+    public function ajaxUpload($model= 'File',$field='file') {
+        $params = array('model'=>$model, 'field'=>$field);
+        slog($params);
         $result = $this->upload($params);
         if ($result['status']) {
             $result['info'] = '上传成功';
         } else {
+            $result['status'] = 0;
             $result['info'] = '上传失败'.$result['info'];
         }
         $this->ajaxReturn($result);
     }
 
     protected function upload($params) {
+        slog($params);
         /* 返回标准数据 */
         $return = array('status' => 1, 'info' => '上传成功', 'data' => '');
         $model = $params['model'] == 'Picture'? 'Picture' : 'File';

@@ -1,5 +1,5 @@
 <div class="form-controls">
-    <input type="file" id="upload_picture_file_upload" style="width:44px">
+    <input type="file" id="upload_file" style="width:44px">
     <input type="hidden" name="cover_id" id="cover_id_file_upload" />
 </div>
 <script type="text/javascript">
@@ -12,20 +12,20 @@
     //上传图片
     /* 初始化上传插件 */
     $(function(){
-        $("#upload_picture_file_upload").uploadify({
+        $("#upload_file").uploadify({
             "width"           : [btn_width]||200,
             "height"          : [btn_height]||150,
             "buttonImage"     : '__PUBLIC__/images/video_up_btn.png',
             "multi": false,
             "swf"             : uploadify_swf,
-            "fileObjName"     : "cover",
+            "fileObjName"     : "[model]",
             "buttonText"      : "[button_text]",
             'buttonClass'     : "btn_upload",
             "formData": {
                 'session_id': '{:session_id()}',
                 'ajax': 1,
-                'params[model]': '[model]',
-                'params[field]': '[field]',
+                'model': '[model]',
+                'field': '[field]',
             },
             "uploader"        : "{:U('[target]')}",
             "removeCompleted": true,
@@ -46,12 +46,11 @@
     function uploadPicturefile_upload(file, data){
         console.log(data);
         var data = $.parseJSON(data);
-
         var src = '';
         if(data.status){
             $("#cover_id_file_upload").val(data.id);
             src = data.url || '__ROOT__' + data.path;
-            $("#upload_picture_file_upload").uploadify('settings', 'buttonImage', src);
+            $("#upload_file").uploadify('settings', 'buttonImage', src);
         } else {
             notify(data.info);
         }
@@ -60,45 +59,49 @@
     function uploadVideofile_upload(file, data){
         console.log(data);
         var data = $.parseJSON(data);
-        $('#ajaxReturn').load('/Post/afterUpload', function(){
-            $(this).find('[name="content[video_id]"]').val(data.id);
-            var src = data.url || '__ROOT__' + data.path;
-            $(this).find('[name="content[video_url]"]').val(src);
+        if(undefined != data.status && data.status){
+            $('#ajaxReturn').load('/Post/afterUpload', function(){
+                $(this).find('[name="content[video_id]"]').val(data.id);
+                var src = data.url || '__ROOT__' + data.path;
+                $(this).find('[name="content[video_url]"]').val(src);
 
-            $("#cover_upload").uploadify({
-                "height"          : 150,
-                "swf"             : uploadify_swf,
-                "fileObjName"     : "cover_upload",
-                "buttonText"      : "视频封面",
-                "buttonImage"     : no_pic,
-                "queueSizeLimit" : 1,
-                "uploader"        : "{:U('/Upload/ajaxUpload')}",
-                "width"           : 200,
-                "formData"        : {
-                    'session_id':'{:session_id()}',
-                    'ajax': 1,
-                    'params[model]': 'picture',
-                    'params[field]': 'cover_upload',
-                },
-                "removeTimeout"   : 1,
-                "fileTypeExts"    : "*.jpg; *.png; *.gif;",
-                "onFallback" : function() {
-                alert('未检测到兼容版本的Flash.');
-                },
-                "onUploadSuccess" : uploadPicture
+                $("#cover_upload").uploadify({
+                    "height"          : 150,
+                    "swf"             : uploadify_swf,
+                    "fileObjName"     : "cover_upload",
+                    "buttonText"      : "视频封面",
+                    "buttonImage"     : no_pic,
+                    "queueSizeLimit" : 1,
+                    "uploader"        : "{:U('/Upload/ajaxUpload')}",
+                    "width"           : 200,
+                    "formData"        : {
+                        'session_id':'{:session_id()}',
+                        'ajax': 1,
+                        'model': 'picture',
+                        'field': 'cover_upload',
+                    },
+                    "removeTimeout"   : 1,
+                    "fileTypeExts"    : "*.jpg; *.png; *.gif;",
+                    "onFallback" : function() {
+                        alert('未检测到兼容版本的Flash.');
+                    },
+                    "onUploadSuccess" : uploadPicture
+                });
+                function uploadPicture(file, data){
+                    console.log(data)
+                    var data = $.parseJSON(data);
+                    if (data.status){
+                        var src = data.url || '__ROOT__' + data.path;
+                        $('#ajaxReturn').find('[name=cover]').val(src);
+                        $("#cover_upload").uploadify('settings', 'buttonImage', src);
+                    } else {
+                        alert(data.info);
+                    }
+                };
+
             });
-            function uploadPicture(file, data){
-                console.log(data)
-                var data = $.parseJSON(data);
-                if (data.status){
-                    var src = data.url || '__ROOT__' + data.path;
-                    $video_modal.find('[name=cover]').val(src);
-                    $("#cover_upload").uploadify('settings', 'buttonImage', src);
-                } else {
-                    alert(data.info);
-                }
-            };
-
-        });
+        }else{
+            notify('上传失败');
+        }
     }
 </script>
