@@ -11,7 +11,7 @@
 		   'port'=>1229,
 		   'error_handler'=>true,
 		   'optimize'=>true,
-		   'allow_client_ids'=>array('luofei_upfy','yangweijie_jay'),
+		   'allow_client_ids'=>array('yangweijie_jay'),
 		   'show_included_files'=>false
 		);
 		if(isset($_GET['slog_force_client_id']))
