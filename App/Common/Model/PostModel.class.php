@@ -43,6 +43,7 @@ class PostModel extends Model{
         if(in_array($result['type'], array('picture', 'music', 'video'))){
             $result['content'] = json_decode($result['content'], 1);
         }
+        // $result['update_at'] = date('Y/m/d H:i:s A', strtotime($result['update_at']));
     }
 
     protected function _after_select(&$result,$options){

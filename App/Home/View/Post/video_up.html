@@ -43,7 +43,27 @@
             }
         });
     });
-    function uploadPicturefile_upload(file, data){
+
+    function uploadMusic(file, data){
+        console.log(data);
+        var data = $.parseJSON(data);
+        var src = '';
+        if(data.status){
+            var index = $('#music_list .item').length;
+            var item = [
+                '<li class="item">',
+                    '<input name="content['+index+'][id]" type="hidden" value="'+data.id+'" class="hide-data">',
+                    '<input name="content['+index+'][path]" value="'+data.name+'" class="form-control hide-data" readonly> ',
+                    '<input name="content['+index+'][title]" class="form-control hide-data" placeholder="标题">',
+                '</li>'
+            ];
+            $('#music_list').append(item.join(''));
+        } else {
+            notify(data.info);
+        }
+    }
+
+    function uploadPicture(file, data){
         console.log(data);
         var data = $.parseJSON(data);
         var src = '';
@@ -56,7 +76,7 @@
         }
     }
 
-    function uploadVideofile_upload(file, data){
+    function uploadVideo(file, data){
         console.log(data);
         var data = $.parseJSON(data);
         if(undefined != data.status && data.status){
@@ -77,7 +97,7 @@
                     "formData"        : {
                         'session_id':'{:session_id()}',
                         'ajax': 1,
-                        'model': 'picture',
+                        'model': 'Picture',
                         'field': 'cover_upload',
                     },
                     "removeTimeout"   : 1,

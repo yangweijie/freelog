@@ -1,0 +1,16 @@
+<div class="blog-post" id="picture">
+    <p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
+    <section class="blog-post-content pics">
+        <volist name="post.content" id="pic">
+        <a rel="gallery-{$post_k}" href="{$pic.path}" class="swipebox pic">
+            <img src="{$pic.path}" alt="{$pic.alt}" width="617">
+        </a>
+        </volist>
+    </section>
+    <section>
+        （{:count($post['content'])}张）
+    </section>
+    <section class="blog-post-content">
+        {$post.description|htmlspecialchars_decode}
+    </section>
+</div>

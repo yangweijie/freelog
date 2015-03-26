@@ -8,4 +8,5 @@ return array(
         '__CSS__' => __ROOT__ . '/Public/css',
         '__JS__' => __ROOT__ . '/Public/js',
     ),
+    'SHOW_PAGE_TRACE'=>true,
 );

@@ -1,0 +1,41 @@
+<div class="blog-post" id="music">
+	<h2 class="blog-post-title">音乐</h2>
+	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
+	<if condition="1 == count($post['content'])">
+		<p class="blog-post-content single">
+			<audio src="{$post.content.0.id|get_file}" preload="auto"></audio>
+			<div class="track-details">
+			  {$post.content.0.title}
+			</div>
+		</p>
+	<else/>
+		<volist name="post.content" id="music">
+			<p class="blog-post-content single">
+				<audio src="{$music.id|get_file}" preload="auto"></audio>
+				<div class="track-details">
+				  {$music.title}
+				</div>
+			</p>
+		</volist>
+		<!-- <p class="blog-post-content multiple">
+			<div class="wrapper">
+				<h1>{$post.content.0.title}</h1>
+				<audio preload></audio>
+				<ol>
+					<volist name="post.content" id="music">
+					<li><a href="#" data-src="{$music.id|get_file}">{$music.title}</a></li>
+					</volist>
+				</ol>
+			</div>
+			<div class="shortcuts">
+				<div>
+					<h1>Keyboard shortcuts:</h1>
+					<p><em>&rarr;</em> Next track</p>
+					<p><em>&larr;</em> Previous track</p>
+					<p><em>Space</em> Play/pause</p>
+				</div>
+			</div>
+		</p> -->
+	</if>
+	<present name="post.description">{$post.description|htmlspecialchars_decode}</present>
+</div>

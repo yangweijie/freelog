@@ -40,3 +40,51 @@
 	    }
 	    return $value;
 	}
+
+	function friendly_datetime($datetime){
+		return date('Y/m/d H:i:s A', strtotime($datetime));
+	}
+
+	/**
+	 * 获取文档封面图片
+	 * @param int $cover_id
+	 * @param string $field
+	 * @return 完整的数据  或者  指定的$field字段值
+	 * @author huajie <banhuajie@163.com>
+	 */
+	function get_cover($cover_id, $field = 'path'){
+	    if(empty($cover_id)){
+	        return false;
+	    }
+	    $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+	    if($field == 'path'){
+	        if(!empty($picture['url'])){
+	            $picture['path'] = $picture['url'];
+	        }else{
+	            $picture['path'] = __ROOT__.$picture['path'];
+	        }
+	    }
+	    return empty($field) ? $picture : $picture[$field];
+	}
+
+	/**
+	 * 获取文档封面图片
+	 * @param int $cover_id
+	 * @param string $field
+	 * @return 完整的数据  或者  指定的$field字段值
+	 * @author huajie <banhuajie@163.com>
+	 */
+	function get_file($id, $field = 'path'){
+	    if(empty($id)){
+	        return false;
+	    }
+	    $file = M('File')->where(array('status'=>1))->getById($id);
+	    if($field == 'path'){
+	        if(!empty($file['url'])){
+	            $file['path'] = $file['url'];
+	        }else{
+	            $file['path'] = __ROOT__.$file['path'];
+	        }
+	    }
+	    return empty($field) ? $file : $file[$field];
+	}

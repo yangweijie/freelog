@@ -212,7 +212,7 @@ div.tagsinput span.tag a {
 #text .form-control.edui-default{
   height: 341px; /*比文本框设定的高度多了55px*/
 }
-#picture .form-control.edui-default, #video .form-control.edui-default{
+#picture .form-control.edui-default, #video .form-control.edui-default, #music .form-control.edui-default{
   height: 167px; /*比文本框设定的高度多了55px*/
 }
 
@@ -257,3 +257,65 @@ div.tagsinput span.tag a {
   width: 100%;
 }
 
+
+#music .uploadify-button{
+  border-radius: 5px;
+  border-right: 1px solid #ccc;
+}
+
+#music #music_list{
+  list-style-type: decimal-leading-zero;
+}
+
+/* 音乐播放器 */
+.audiojs { height: 22px; background: #404040;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444), color-stop(0.5, #555), color-stop(0.51, #444), color-stop(1, #444));
+  background-image: -moz-linear-gradient(center top, #444 0%, #555 50%, #444 51%, #444 100%);
+  -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3); }
+.audiojs .play-pause { width: 23px; height: 20px; padding: 0px 8px 0px 0px; }
+.audiojs p { width: 25px; height: 20px; margin: -3px 0px 0px -1px; }
+.audiojs .scrubber { background: #5a5a5a; width: 310px; height: 10px; margin: 5px; }
+.audiojs .progress { height: 10px; width: 0px; background: #ccc;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccc), color-stop(0.5, #ddd), color-stop(0.51, #ccc), color-stop(1, #ccc));
+  background-image: -moz-linear-gradient(center top, #ccc 0%, #ddd 50%, #ccc 51%, #ccc 100%); }
+.audiojs .loaded { height: 10px; background: #000;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222), color-stop(0.5, #333), color-stop(0.51, #222), color-stop(1, #222));
+  background-image: -moz-linear-gradient(center top, #222 0%, #333 50%, #222 51%, #222 100%); }
+.audiojs .time { float: left; height: 25px; line-height: 25px; }
+.audiojs .error-message { height: 24px;line-height: 24px; }
+
+.track-details { clear: both; height: 20px; width: 460px; padding: 1px 6px; background: #eee; color: #222; font-family: monospace; font-size: 11px; line-height: 20px;
+  -webkit-box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.15); -moz-box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.15); }
+.track-details:before { content: '♬ '; }
+.track-details em { font-style: normal; color: #999; }
+
+#music h1 { color: #444; font-size: 1.2em; padding: 14px 2px 12px; margin: 0px; }
+#music h1 em { font-style: normal; color: #999; }
+#music a { color: #888; text-decoration: none; }
+#music .wrapper { width: 400px; margin: 40px auto; }
+
+#music ol { padding: 0px; margin: 0px; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
+#music ol li { position: relative; margin: 0px; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; }
+#music ol li a { display: block; text-indent: -3.3ex; padding: 0px 0px 0px 20px; }
+#music li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); }
+#music li.playing a { color: #000; }
+#music li.playing:before { content: '♬'; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: -24px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
+
+#music .shortcuts { position: fixed; bottom: 0px; width: 100%; color: #666; font-size: 0.9em; margin: 60px 0px 0px; padding: 20px 20px 15px; background: #f3f3f3; background: rgba(240, 240, 240, 0.7); }
+#music .shortcuts div { width: 460px; margin: 0px auto; }
+#music .shortcuts h1 { margin: 0px 0px 6px; }
+#music .shortcuts p { margin: 0px 0px 18px; }
+#music .shortcuts em { font-style: normal; background: #d3d3d3; padding: 3px 9px; position: relative; left: -3px;
+  -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px;
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); -o-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); }
+
+@media screen and (max-device-width: 480px) {
+  #music .wrapper { position: relative; left: -3%; }
+  #music .shortcuts { display: none; }
+}
+
+#picture .pic{
+  margin-bottom: 5px;
+  cursor: pointer;
+}
