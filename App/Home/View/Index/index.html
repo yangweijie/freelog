@@ -9,9 +9,13 @@
 			<case value="music"><include file="Index/music" /></case>
 			<case value="video"><include file="Index/video" /></case>
 		</switch>
-		<!-- <include file="$tpl" /> -->
+		<section>
+			{$post.tags|get_tag}
+		</section>
 	</volist>
+	<nav>
 	{$_page}
+	</nav>
 </block>
 
 <block name="sidebar">

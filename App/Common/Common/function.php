@@ -88,3 +88,19 @@
 	    }
 	    return empty($field) ? $file : $file[$field];
 	}
+
+	/**
+	 * 获取标签的显示
+	 */
+	function get_tag($tags, $link = true){
+		if($link && $tags){
+	        $tags = explode(',', $tags);
+	        $link = array();
+	        foreach ($tags as $value) {
+	            $link[] = '<a href="'.U('/').'?tag='.$value.'"><span class="label label-info">'.$value.'</span<</a>';
+	        }
+	        return join($link,',');
+	    }else{
+	        return $tags? $tags : 'none';
+	    }
+	}
