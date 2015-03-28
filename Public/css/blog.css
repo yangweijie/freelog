@@ -118,17 +118,11 @@ h6, .h6 {
 /* Sidebar modules for boxing content */
 .sidebar-module {
   padding: 15px;
-  margin: 0 -15px 15px;
 }
 .sidebar-module-inset {
-  padding: 15px;
   background-color: #f5f5f5;
   border-radius: 4px;
-}
-.sidebar-module-inset p:last-child,
-.sidebar-module-inset ul:last-child,
-.sidebar-module-inset ol:last-child {
-  margin-bottom: 0;
+  padding: 15px;
 }
 
 
@@ -333,4 +327,47 @@ div.tagsinput span.tag a {
 .pager >a:focus, .pager >a:hover {
   text-decoration: none;
   background-color: #eee;
+}
+
+/*首页标签*/
+.side-tracked-tag{
+  margin: 0 -15px;
+}
+.side-tracked-tag .glyphicon{
+  color: #b4b4b4;
+}
+
+.side-tracked-tag .glyphicon:hover{
+  color: #8F8F8F;
+}
+
+.side-tracked-tag li{
+  font-size: 13px;
+  height: 37px;
+  text-align: left;
+  border-bottom: 1px solid #C6C8CB;
+  padding-left: 15px;
+}
+
+.side-tracked-tag li:last-child{
+  border-bottom: 0;
+}
+
+.side-tracked-tag span{
+  line-height: 36px;
+  height: 36px;
+  vertical-align: middle;
+}
+.side-tracked-tag a{
+  line-height: 36px;
+  height: 36px;
+  color: #444;
+  overflow: hidden;
+  width: 100%;
+  display: inline-block;
+}
+
+.side-tracked-tag li:hover {
+  background: #Fff;
+  box-shadow: inset 0 0 3px #ccc;
 }
