@@ -27,7 +27,7 @@ class EmptyController extends RestController{
 
     public function _empty($name){
         $table = $this->resource_name;
-        if(!in_array($this->otherResource, $table)){
+        if(!in_array($table, $this->otherResource)){
             //先判断表存不存在
             if(!M()->query("SHOW TABLES LIKE '".C('DB_PREFIX')."{$table}'")){
                $this->response(array('code'=>404, 'message'=> "Resource '{$this->resource_name}' doesn't exist"), $this->defaultType, 404);
