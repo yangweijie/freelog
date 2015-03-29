@@ -53,7 +53,7 @@ class PostModel extends Model{
     }
 
 	// 新增数据前的回调方法
-    protected function _after_insert(&$data,$options) {
+    protected function _after_insert($data, $options) {
     	$this->_after_update($data, $options);
     }
 
