@@ -166,6 +166,7 @@ abstract class Driver {
             }
         }
         $this->bind =   array();
+        slog($this->queryStr, $this->_linkID);
         $result =   $this->PDOStatement->execute();
         // 调试结束
         $this->debug(false);
@@ -1036,7 +1037,6 @@ abstract class Driver {
      * @param boolean $start  调试开始标记 true 开始 false 结束
      */
     protected function debug($start) {
-        slog($this->queryStr, $this->_linkID);
         if($this->config['debug']) {// 开启数据库调试模式
             if($start) {
                 G('queryStartTime');
