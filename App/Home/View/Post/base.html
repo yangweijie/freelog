@@ -36,17 +36,17 @@
                     <a class="blog-nav-item" href="#">Press</a>
                     <a class="blog-nav-item" href="#">New hires</a>
                     <a class="blog-nav-item" href="#">About</a>
+                    <form class="navbar-form navbar-right" id="search" method="GET" action="/Search" role="search">
+                        <div class="form-group input-group">
+                            <input type="text" name="kw" class="form-control" placeholder="输入关键字搜索" value="{$kw|default=""}">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search f20" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </nav>
-                <form class="navbar-form navbar-right" id="search" method="post" action="/" role="search">
-                    <div class="form-group input-group">
-                        <input type="text" class="form-control" name="kw" placeholder="输入关键字搜索" value="{$kw|default=""}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" id="search">
-                                <span class="glyphicon glyphicon-search f20" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
             </div>
         </div>
 
