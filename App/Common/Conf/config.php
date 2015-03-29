@@ -48,4 +48,7 @@ return array(
         'hash'     => true, //是否生成hash编码
         'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
     ), //图片上传相关配置（文件上传类配置）
+
+    //自定义配置
+    'comment_uid_youyan'=>'90040',
 );

@@ -1,0 +1,44 @@
+<extend name="Index/base" />
+
+<block name="header">
+<div class="blog-header">
+	<h4>{$title|default=""}</h4>
+</div>
+</block>
+
+<block name="main">
+	<assign name="tpl" value="$post.type"/>
+	<switch name="tpl">
+		<case value="text"><include file="Detail/text" /></case>
+		<case value="picture"><include file="Detail/picture" /></case>
+		<case value="music"><include file="Detail/music" /></case>
+		<case value="video"><include file="Detail/video" /></case>
+	</switch>
+	<eq name="Think.const.CONTROLLER_NAME" value="Post"></eq>
+	<div class="" id="comment">
+		<!-- UY BEGIN -->
+        <div id="uyan_frame"></div>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid={:C('comment_uid_youyan')}"></script>
+        <!-- UY END -->
+	</div>
+</block>
+
+<block name="sidebar">
+浏览数：{$post.views}
+</block>
+
+<block name="script">
+	<script type="text/javascript" src="__BOWER__/audiojs/audiojs/audio.min.js"></script>
+
+	<script src="__STATIC__/swipebox/js/jquery.swipebox.js"></script>
+	<link rel="stylesheet" href="__STATIC__/swipebox/css/swipebox.css">
+
+	<script type="text/javascript">
+		$(function(){
+			var single = audiojs;
+			single.events.ready(function() {
+				var a1 = single.createAll('', $('.single audio'));
+			});
+		})
+	</script>
+</block>

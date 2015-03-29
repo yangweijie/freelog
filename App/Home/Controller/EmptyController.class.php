@@ -22,6 +22,7 @@ class EmptyController extends HomeController{
 		}else{
 			switch (strtolower(CONTROLLER_NAME)) {
 		        case 'post':
+		        	echo 'post';die;
 		            $Index = new IndexController();
 		            $Index->detail(ACTION_NAME);
 		            break;

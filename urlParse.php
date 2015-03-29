@@ -12,7 +12,7 @@ class urlParse {
     private $desc = '';
 
     public function __construct() {
-        
+
     }
 
     /* 这里只解析音乐 */
@@ -75,7 +75,7 @@ class urlParse {
         $domain = $this->getDomain($url); //引用页地址
         //在约束数组中查找
         if (array_key_exists($domain, $sitelist)) {   //网页解析
-            $data = $this->$sitelist[$domain]($url);
+            $data = $this::$sitelist[$domain]($url);
         } else {
             $data = $this->_webVideo($url);
         }

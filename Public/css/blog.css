@@ -156,6 +156,12 @@ h6, .h6 {
   color: #999;
 }
 
+.blog-post .more{
+  color: #8F8F8F;
+  text-decoration: underline;
+  font-size: 14px;
+
+}
 
 /*
  * Footer

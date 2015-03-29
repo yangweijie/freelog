@@ -1,7 +1,34 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class PostController extends Controller {
+class PostController extends HomeController {
+
+    public function _empty($action){
+        $this->detail($action);
+    }
+
+    //详情
+    public function detail($id){
+        /* 标识正确性检测 */
+        if(!($id && is_numeric($id))){
+            $this->error('文章ID错误！');
+        }
+
+        /* 获取详细信息 */
+        $Post = D('Post');
+        $info = $Post->find($id);
+        if(!$info){
+            $this->error($Post->getError());
+        }
+
+        /* 更新浏览数 */
+        $map = array('id' => $id);
+        $Post->where($map)->setInc('views');
+
+        /* 模板赋值并渲染模板 */
+        $this->assign('post', $info);
+        $this->display('Index/detail');
+    }
 
 	public function parseVideo(){
         require './urlParse.php';

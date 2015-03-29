@@ -17,25 +17,12 @@
 				</div>
 			</p>
 		</volist>
-		<!-- <p class="blog-post-content multiple">
-			<div class="wrapper">
-				<h1>{$post.content.0.title}</h1>
-				<audio preload></audio>
-				<ol>
-					<volist name="post.content" id="music">
-					<li><a href="#" data-src="{$music.id|get_file}">{$music.title}</a></li>
-					</volist>
-				</ol>
-			</div>
-			<div class="shortcuts">
-				<div>
-					<h1>Keyboard shortcuts:</h1>
-					<p><em>&rarr;</em> Next track</p>
-					<p><em>&larr;</em> Previous track</p>
-					<p><em>Space</em> Play/pause</p>
-				</div>
-			</div>
-		</p> -->
 	</if>
 	<present name="post.description">{$post.description|htmlspecialchars_decode}</present>
+	<section>
+		<a href="{:U('/Post/'.$post['id'])}" class="more" target="_blank">未完，继续阅读→</a>
+		<br>
+		<br>
+		{$post.tags|get_tag}
+	</section>
 </div>

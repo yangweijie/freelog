@@ -1,0 +1,91 @@
+<div class="blog-post" id="music">
+	<h2 class="blog-post-title">音乐</h2>
+	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
+	<if condition="1 == count($post['content'])">
+		<p class="blog-post-content single">
+			<audio src="{$post.content.0.id|get_file}" preload="auto"></audio>
+			<div class="track-details">
+			  {$post.content.0.title}
+			</div>
+		</p>
+	<else/>
+		<p class="blog-post-content multiple">
+			<div class="wrapper">
+				<h1>{$post.content.0.title}</h1>
+				<audio preload></audio>
+				<ol>
+					<volist name="post.content" id="music">
+					<li><a href="#" data-src="{$music.id|get_file}">{$music.title}</a></li>
+					</volist>
+				</ol>
+			</div>
+			<div class="shortcuts">
+				<div>
+					<h1>Keyboard shortcuts:</h1>
+					<p><em>&rarr;</em> Next track</p>
+					<p><em>&larr;</em> Previous track</p>
+					<p><em>Space</em> Play/pause</p>
+				</div>
+			</div>
+		</p>
+	</if>
+	<present name="post.description">{$post.description|htmlspecialchars_decode}</present>
+	<section>
+		<a href="{:U('/Post/'.$post['id'])}" class="more" target="_blank">未完，继续阅读→</a>
+		<br>
+		<br>
+		{$post.tags|get_tag}
+	</section>
+</div>
+
+<script type="text/javascript">
+<if condition="1 == count($post['content'])">
+	var single = audiojs;
+	single.events.ready(function() {
+		var a1 = single.createAll('', $('.single audio'));
+	});
+<else/>
+	var a = audiojs.createAll({
+		trackEnded: function() {
+			var next = $('ol li.playing').next();
+			if (!next.length) next = $('ol li').first();
+			next.addClass('playing').siblings().removeClass('playing');
+			audio.load($('a', next).attr('data-src'));
+			audio.play();
+		}
+	}, $('.multiple audio'));
+
+	if(a.length){
+		// Load in the first track
+		var audio = a[0];
+		first = $('ol a').attr('data-src');
+		$('ol li').first().addClass('playing');
+		audio.load(first);
+		// Load in a track on click
+		$('ol li').click(function(e) {
+			e.preventDefault();
+			$(this).addClass('playing').siblings().removeClass('playing');
+			audio.load($('a', this).attr('data-src'));
+			audio.play();
+		});
+		// Keyboard shortcuts
+		$(document).keydown(function(e) {
+			var unicode = e.charCode ? e.charCode : e.keyCode;
+			 // right arrow
+			 if (unicode == 39) {
+					var next = $('li.playing').next();
+					if (!next.length) next = $('ol li').first();
+					next.click();
+				// back arrow
+			} else if (unicode == 37) {
+				var prev = $('li.playing').prev();
+				if (!prev.length) prev = $('ol li').last();
+				prev.click();
+				// spacebar
+			} else if (unicode == 32) {
+				audio.playPause();
+			}
+		});
+	}
+</if>
+</script>
