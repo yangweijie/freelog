@@ -1,7 +1,11 @@
 <div class="blog-post" id="video">
     <p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
     <section>
+    	<eq name="post.content.video_id" value="0">
+    		<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="{$post.content.video_url}" width="617" height="480" wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true">
+    	<else/>
     	<video src="{$post.content.video_url}" controls="controls" poster="{$post.content.cover|get_cover}" width="617"></video>
+    	</eq>
     </section>
     <section class="blog-post-content">
     	{$post.description|htmlspecialchars_decode}

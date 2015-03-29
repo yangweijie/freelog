@@ -10,7 +10,7 @@ class IndexController extends Controller {
 
     public function lists($page = 1){
     	$map = array();
-    	$list_row = I('r', 1);
+    	$list_row = I('r', 10);
     	$postModel = D('Post');
 
     	//tag搜索
