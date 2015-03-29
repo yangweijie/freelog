@@ -143,6 +143,13 @@ function ajaxForm(ele, target, data, callback){
 			}, 1500);
 		}
 	});
+
+	//搜索
+	$('#search').submit(function(){
+        var url = '/search/'+ $('#search input[name="kw"]').val();
+        location.href = url;
+        return false;
+    });
 }
 /**顶部通知栏*/
 var content = $('body');
