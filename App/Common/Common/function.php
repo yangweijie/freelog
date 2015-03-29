@@ -97,7 +97,7 @@
 	        $tags = explode(',', $tags);
 	        $link = array();
 	        foreach ($tags as $value) {
-	            $link[] = '<a href="'.U('/').'?tag='.$value.'"><span class="label label-info">'.$value.'</span<</a>';
+	            $link[] = '<a href="'.U('/').'?tag='.$value.'"><span class="label label-info">'.$value.'</span></a>';
 	        }
 	        return join($link,',');
 	    }else{
