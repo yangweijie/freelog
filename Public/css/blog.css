@@ -43,6 +43,9 @@ h6, .h6 {
   }
 }
 
+#main{
+  min-height: 72.5%;
+}
 
 /*
  * Masthead for nav
