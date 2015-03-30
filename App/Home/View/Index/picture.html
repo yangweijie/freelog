@@ -1,4 +1,4 @@
-<div class="blog-post" id="picture">
+<div class="blog-post picture">
     <p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
     <section class="blog-post-content pics">
         <volist name="post.content" id="pic">
@@ -14,9 +14,11 @@
         {$post.description|htmlspecialchars_decode}
     </section>
     <section>
+        <neq name="Think.const.CONTROLLER_NAME" value="Post">
         <a href="{:U('/Post/'.$post['id'])}" class="more" target="_blank">未完，继续阅读→</a>
         <br>
         <br>
+        </neq>
         {$post.tags|get_tag}
     </section>
 </div>

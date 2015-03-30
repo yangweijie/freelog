@@ -24,21 +24,33 @@
 </block>
 
 <block name="sidebar">
-浏览数：{$post.views}
+<div class="sidebar-module sidebar-module-inset">
+	<h4>相关信息</h4>
+	<ul class="list-unstyled">
+		<li>浏览数：{$post.views}</li>
+		<li>更新于：{$post.update_at}</li>
+	</ul>
+</div>
+<?php if ($post['type']== 'music' && count($post['content']) >1): ?>
+<div class="sidebar-module">
+<div class="shortcuts">
+	<div>
+		<h1>Keyboard shortcuts:</h1>
+		<p><em>&rarr;</em> Next track</p>
+		<p><em>&larr;</em> Previous track</p>
+		<p><em>Space</em> Play/pause</p>
+	</div>
+</div>
+</div>
+<?php endif ?>
 </block>
 
-<block name="script">
-	<script type="text/javascript" src="__BOWER__/audiojs/audiojs/audio.min.js"></script>
-
+<block name="style">
 	<script src="__STATIC__/swipebox/js/jquery.swipebox.js"></script>
 	<link rel="stylesheet" href="__STATIC__/swipebox/css/swipebox.css">
-
 	<script type="text/javascript">
-		$(function(){
-			var single = audiojs;
-			single.events.ready(function() {
-				var a1 = single.createAll('', $('.single audio'));
-			});
-		})
+	$(function(){
+		$('body').attr('id', '{$post.type}');
+	});
 	</script>
 </block>

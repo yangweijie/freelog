@@ -101,6 +101,6 @@
 	        }
 	        return join($link,',');
 	    }else{
-	        return $tags? $tags : 'none';
+	        return $tags? $tags : '';
 	    }
 	}
