@@ -1,5 +1,5 @@
 <?php
-return array(
+$config = array(
 	//'配置项'=>'配置值'
     'URL_CASE_INSENSITIVE'=>true,
     'URL_REWRITE'=>2,
@@ -52,3 +52,13 @@ return array(
     //自定义配置
     'comment_uid_youyan'=>'90040',
 );
+
+if(isset($_ENV['VCAP_SERVICES'])){
+    $db = $config['mysql'][0]['credentials'];
+    $config['DB_HOST'] = $db['hostname'];
+    $config['DB_NAME'] = $db['name'];
+    $config['DB_USER'] = $db['username'];
+    $config['DB_PWD'] = $db['password'];
+    $config['DB_PORT'] = $db['port'];
+}
+return $config;
