@@ -26,7 +26,7 @@ class IndexController extends Controller {
     	if(I('get.kw')){
             $kw = trim(I('get.kw'));
             $map['title'] = array('like',"%{$kw}%");
-            $like_id = $postModel->where("content like '%{$kw}%'")->getField('id', true);
+            $like_id = $postModel->where("content LIKE '%{$kw}%' OR description LIKE '%{$kw}%'")->getField('id', true);
             if($like_id)
                 $map['id'] = array('in', $like_id);
         }
