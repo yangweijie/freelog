@@ -54,11 +54,15 @@ $config = array(
 );
 
 if(isset($_ENV['VCAP_SERVICES'])){
-    $db = $config['mysql'][0]['credentials'];
+    $json = json_decode($_ENV['VCAP_SERVICES'], true);
+    $db = $json['mysql'][0]['credentials'];
+    $file_root = $json['filesystem-1.0']['credentials']['host_path'];
     $config['DB_HOST'] = $db['hostname'];
     $config['DB_NAME'] = $db['name'];
     $config['DB_USER'] = $db['username'];
     $config['DB_PWD'] = $db['password'];
     $config['DB_PORT'] = $db['port'];
+    $config['FILE_UPLOAD']['rootPath'] = $file_root.'/file/';
+    $config['PICTURE_UPLOAD']['rootPath'] = $file_root.'/picture/';
 }
 return $config;
