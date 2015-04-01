@@ -1,0 +1,17 @@
+<div class="sidebar-module">
+	<?php if (is_login()): ?>
+		<!-- Single button -->
+		<div class="btn-group">
+	  		<button type="button" class="btn btn-primary dropdown-toggle w161" data-toggle="dropdown" aria-expanded="false">
+	  			<eq name="Think.const.ACTION_NAME" value="new">发布其他<else/>发布</eq>
+		    	<span class="caret"></span>
+		  	</button>
+		  	<ul class="dropdown-menu" role="menu">
+			    <li><a href="{:U('post/text')}">文本</a></li>
+			    <li><a href="{:U('post/picture')}">图片</a></li>
+			    <li><a href="{:U('post/video')}">视频</a></li>
+			    <li><a href="{:U('post/music')}">音频</a></li>
+		  	</ul>
+		</div>
+	<?php endif ?>
+</div>
