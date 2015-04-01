@@ -15,4 +15,22 @@ class HomeController extends Controller{
 		}
 		C($config); //添加配置
 	}
+
+	public function success($message='', $jumpUrl='', $ajax=false){
+		if(empty($ajax)){
+			$ajax = array('code'=>200);
+		}else{
+			$ajax = array_merge($ajax, array('code'=>200));
+		}
+		parent::success($message, $jumpUrl, $ajax);
+	}
+
+	public function error($message='', $jumpUrl='', $ajax=false){
+		if(empty($ajax)){
+			$ajax = array('code'=>200);
+		}else{
+			$ajax = array_merge($ajax, array('code'=>200));
+		}
+		parent::error($message, $jumpUrl, $ajax);
+	}
 }

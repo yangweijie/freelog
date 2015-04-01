@@ -1,0 +1,17 @@
+<extend name="Index/base" />
+
+<block name="header">
+</block>
+
+<block name="main">
+<form class="form-signin" action="{:U('/user/reg')}" method="post">
+<h2 class="form-signin-heading">注册</h2>
+  <label for="inputNickname" class="sr-only">用户名</label>
+  <input type="text" id="inputNickname" class="form-control hide-data" placeholder="用户名" required="" autofocus="" name="nickname">
+  <label for="inputPassword" class="sr-only">密码</label>
+  <input type="password" id="inputPassword" class="form-control hide-data" placeholder="密码" required="" name="pwd">
+  <button class="btn btn-lg btn-primary ajax-post" type="submit" target-form="form-signin">注册</button><a href="{:U('/user/login')}" class="btn btn-text">有账号了？点我去登录</a>
+</form>
+</block>
+
+<block name="sidebar"></block>

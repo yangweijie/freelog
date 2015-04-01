@@ -4,6 +4,27 @@
 	    return @date("Y-m-d H:i:s" ,strtotime( $str ));
 	}
 
+	//密码加密
+	function password($password){
+		$md5str=md5($password);
+		$salt=get_password_salt($md5str);
+		return hash('sha256',$md5str.$salt);
+	}
+
+	function get_password_salt($md5str,$d=1001){
+		$crc32_value = floatval(sprintf("%u", crc32($md5str)));
+		$crc32_value = ($crc32_value > PHP_INT_MAX) ?
+			(($crc32_value - PHP_INT_MAX ) % $d + PHP_INT_MAX % $d) % $d : $crc32_value % $d;
+		return $crc32_value;
+	}
+
+	/**
+	 * 判断是否登录，如果登录了返回uid
+	 */
+	function is_login(){
+		return session('?user')? session('user.uid'): 0;
+	}
+
 	/**
 	 * 快速文件数据读取和保存 针对简单类型数据 字符串、数组
 	 * @param string $name 缓存名称

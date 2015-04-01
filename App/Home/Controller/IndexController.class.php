@@ -30,6 +30,11 @@ class IndexController extends HomeController {
                 $map['id'] = array('in', $like_id);
         }
 
+        //区分所有人和本人发布的文章
+        if( false !== strpos(__SELF__, 'mine') && is_login()){
+            $map['member_id'] = session('user.uid');
+        }
+
         //归档搜索
         if(isset($_GET['year']) && isset($_GET['month'])){
 	        $year = CONTROLLER_NAME;
@@ -53,7 +58,7 @@ class IndexController extends HomeController {
 		$this->assign('tags', M('Tags')->order('count DESC')->select());
 
 		//获取归档
-		$list = $postModel->order('`deadline` DESC,`id` DESC')->select();
+		$list = $postModel->where($map)->order('`deadline` DESC,`id` DESC')->select();
 		$date = $time = array();
 		foreach ($list as $key => $value) {
 			if($value['deadline'])
@@ -87,6 +92,13 @@ class IndexController extends HomeController {
             $this->error('请输入关键字');
         $this->assign('title', "包含关键字 {$kw} 的文章");
         $this->assign('kw', $kw);
+        $this->lists(I('get.page', 1));
+        $this->display('Index/index');
+    }
+
+    //搜索
+    public function mine(){
+        $this->assign('title', "你发布的文章");
         $this->lists(I('get.page', 1));
         $this->display('Index/index');
     }

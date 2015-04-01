@@ -4,10 +4,10 @@ class UserController extends HomeController{
 
 	public function login($nickname = '', $pwd= ''){
 		if(IS_POST){ //登录验证
-			$uid = D('Member')->check($nickname, $pwd);
+			$Member = D('Member');
+			$uid = $Member->check($nickname, $pwd);
+
 			if(0 < $uid){
-				/* 登录用户 */
-				$Member = D('Member');
 				//登录用户
 				if($Member->login($uid, $nickname)){
 					$this->success('登录成功！',U('/mine'));
@@ -27,6 +27,42 @@ class UserController extends HomeController{
 		} else { //显示登录表单
 			$this->display();
 		}
+	}
+
+	//注册
+	public function reg($nickname = '', $pwd = ''){
+		if(IS_POST){ //注册用户
+			$Member = D('Member');
+			$data = $Member->create(array('nickname'=>$nickname, 'pwd'=>$pwd));
+			if($data){
+				$Member->startTrans();
+				if($Member->add()){
+					if($Member->login($uid, $nickname)){
+						$Member->commit();
+						$this->success('注册成功',U('/mine'));
+					} else {
+						$Member->rollback();
+						$this->error($Member->getError());
+					}
+				}else{
+					$Member->rollback();
+					$this->error($Member->getError());
+				}
+			}else{
+				$this->error($Member->getError());
+			}
+		} else { //显示登录表单
+			$this->display();
+		}
+	}
+
+	public function profile(){
+
+	}
+
+	public function logout(){
+		session('user', NULL);
+		$this->success('登出成功', '/');
 	}
 
 }

@@ -9,7 +9,27 @@
         <link rel="stylesheet" href="__BOWER__/jqnotifybar/css/jquery.notifyBar.css">
         <script type="text/javascript" src="__BOWER__/jqnotifybar/jquery.notifyBar.js"></script>
         <script type="text/javascript" src="__JS__/common.js"></script>
-
+        <script type="text/javascript">
+            // var url = window.location.pathname + window.location.search;
+            // url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
+            var url = '__SELF__';
+            var no_pic = '__PUBLIC__/images/no-cover.png';
+            (function(){
+                var ThinkPHP = window.Think = {
+                    "ROOT"   : "__ROOT__", //当前网站地址
+                    "APP"    : "__APP__", //当前项目地址
+                    "PUBLIC" : "__PUBLIC__", //项目公共目录地址
+                    "DEEP"   : "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+                    "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+                    "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+                }
+            })();
+            $(function(){
+                //单页高亮
+                $('.blog-nav .blog-nav-item').removeClass('active');
+                $('a.blog-nav-item[href="'+url+'"]').addClass('active');
+            })
+        </script>
         <!-- Your site ends -->
         <block name="style"></block>
     </head>
@@ -19,10 +39,23 @@
             <div class="container">
                 <nav class="blog-nav">
                     <a class="blog-nav-item active" href="{:U('/')}">首页</a>
-<!--                     <a class="blog-nav-item" href="#">New features</a>
-                    <a class="blog-nav-item" href="#">Press</a>
-                    <a class="blog-nav-item" href="#">New hires</a>
-                    <a class="blog-nav-item" href="#">About</a> -->
+                    <a class="blog-nav-item" href="{:U('/mine/')}">我的文章</a>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><if condition="is_login()">{:session(
+                        'user.nickname')}<else/>尚未登录</if><span class="caret"></span></a>
+                              <ul class="dropdown-menu" role="menu">
+                                <if condition="is_login()">
+                                <li><a href="{:U('/user/profile')}">个人信息</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{:U('/user/logout')}">退出</a></li>
+                                <else/>
+                                <li><a href="{:U('/user/login')}">登录</a></li>
+                                <li><a href="{:U('/user/reg')}">注册</a></li>
+                                </if>
+                            </ul>
+                        </li>
+                    </ul>
                     <form class="navbar-form navbar-right" id="search" method="GET" action="/Search" role="search">
                         <div class="form-group input-group">
                             <input type="text" name="kw" class="form-control" placeholder="输入关键字搜索" value="{$kw|default=""}">
@@ -64,6 +97,7 @@
                 <a href="#">Back to top</a>
             </p>
         </footer>
+
         <block name="script"></block>
     </body>
 </html>

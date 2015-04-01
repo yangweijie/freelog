@@ -35,6 +35,10 @@ class EmptyController extends HomeController{
 		            $type = I('get.type');
 		            $this->feed($type);
 		            break;
+		        case 'mine':
+		            $Index = new IndexController();
+		            $Index->mine();
+		            break;
 		        default:
 		            $Index = new IndexController();
 		            if (is_numeric(CONTROLLER_NAME) && is_numeric(ACTION_NAME)) {
