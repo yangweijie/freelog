@@ -5,7 +5,7 @@ class UserController extends HomeController{
 	public function login($nickname = '', $pwd= ''){
 		if(IS_POST){ //登录验证
 			$Member = D('Member');
-			$uid = $Member->check($nickname, $pwd);
+			$uid = $Member->checkLogin($nickname, $pwd);
 
 			if(0 < $uid){
 				//登录用户

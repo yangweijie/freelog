@@ -14,7 +14,7 @@ class MemberModel extends Model{
 		array('update_at','datetime',self::MODEL_BOTH,'function'), // 对create_time字段在更新的时候写入当前时间戳
 	);
 
-	public function check($nickname, $pwd){
+	public function checkLogin($nickname, $pwd){
 		$member = $this->where("nickname = '{$nickname}'")->find();
 		if($member){
 			if(password($pwd) == $member['pwd']){
