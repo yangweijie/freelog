@@ -62,7 +62,7 @@
                                 <if condition="is_login()">
                                 <li><a href="{:U('/user/profile')}">个人信息</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{:U('/user/logout')}">退出</a></li>
+                                <li><a href="{:U('/user/logout')}" class="ajax-get">退出</a></li>
                                 <else/>
                                 <li><a href="{:U('/user/login')}">登录</a></li>
                                 <li><a href="{:U('/user/reg')}">注册</a></li>
