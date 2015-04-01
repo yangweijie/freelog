@@ -48,7 +48,7 @@
             <input type="hidden" name="id" value="{$id|default=0}" class="hide-data">
             <input type="hidden" name="type" value="{$type}" class="hide-data">
             <input type="hidden" name="member_id" value="{:is_login()}" class="hide-data">
-            <button class="btn btn-default pull-left">取消</button>
+            <a class="btn btn-default pull-left" href="{:U('/')}">取消</a>
             <button type="button" class="btn btn-primary pull-right ajax-post no-refresh" hide-data="true" target-form="post" href="/api.php/post">保存</button>
         </div>
     </div><!-- /.blog-post -->

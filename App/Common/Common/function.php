@@ -88,6 +88,10 @@
 	    return empty($field) ? $picture : $picture[$field];
 	}
 
+	function get_nickname_by_uid ($uid = 0){
+		return 0 == intval($uid) ? '系统发布': M('Member')->getFieldById($uid, 'nickname');
+	}
+
 	/**
 	 * 获取文档封面图片
 	 * @param int $cover_id

@@ -1,6 +1,6 @@
 <div class="blog-post music">
 	<h2 class="blog-post-title"></h2>
-	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id}</a></p>
+	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id|get_nickname_by_uid}</a></p>
 	<if condition="1 == count($post['content'])">
 		<p class="blog-post-content single">
 			<audio src="{$post.content.0.id|get_file}" preload="true"></audio>
