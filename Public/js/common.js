@@ -1,4 +1,6 @@
 $(function(){
+
+
 	//ajax get请求
 	$('.ajax-get').click(function(){
 		var target;
@@ -113,7 +115,60 @@ $(function(){
 		}
 		return false;
 	});
-})
+
+	//ajax  DELETE 的实现
+
+	$('.ajax-delete').click(function(){
+		var target = $(this).attr('href');
+		var that = this;
+		var callback = $(this).attr('callback');
+		if ( $(this).hasClass('confirm') ) {
+			if(!confirm('确认要执行该操作吗?')){
+				return false;
+			}
+		}
+		$.ajax({
+			url: target,
+			type: 'delete',
+			success: function(data) {
+	            if (data.code >= 200 && data.code < 400) {
+					console.log('success');
+					if (data.url) {
+						notify(data.info + ' 页面即将自动跳转~','success');
+					}else{
+						notify(data.info ,'success');
+					}
+					if(callback)
+						callback();
+					setTimeout(function(){
+						$(that).removeClass('disabled').prop('disabled',false);
+						if(data.url)
+							location.href = data.url;
+					},1500);
+				}else{
+					notify(data.info, 'error');
+					setTimeout(function(){
+						$(that).removeClass('disabled').prop('disabled',false);
+						if (data.url) {
+							location.href = data.url;
+						}
+					}, 1500);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				var code = jqXHR.status;
+				if(404 == code ){
+					notify(data.info ,'error');
+				}else if(412 == code){
+					notify('记录已经被删除了' ,'error');
+				}
+			}
+		});
+		return false;
+	});
+});
+
+
 
 function ajaxForm(ele, target, data, callback){
 	var that = ele;

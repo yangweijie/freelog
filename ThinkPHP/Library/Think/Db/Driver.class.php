@@ -215,6 +215,7 @@ abstract class Driver {
             }
         }
         $this->bind =   array();
+        slog($this->queryStr, $this->_linkID);
         $result =   $this->PDOStatement->execute();
         $this->debug(false);
         if ( false === $result) {

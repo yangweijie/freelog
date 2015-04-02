@@ -7,6 +7,9 @@
     <section>
         <neq name="Think.const.CONTROLLER_NAME" value="Post">
         <a href="{:U('/Post/'.$post['id'])}" class="more" target="_blank">未完，继续阅读→</a>
+        <?php if (is_login() && is_login() == $post['member_id']): ?>
+        <a href="/api.php/post/{$post.id}" class="ajax-delete confirm">删除</a>
+        <?php endif ?>
         <br>
         <br>
         </neq>

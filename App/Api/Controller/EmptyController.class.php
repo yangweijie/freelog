@@ -36,6 +36,7 @@ class EmptyController extends RestController{
         // $model = new PostModel();
         $model = D(ucfirst($table));
         $result = true;
+        $data = array();
         $code = 404;
         switch ($this->_method){
             case 'head':
@@ -88,8 +89,10 @@ class EmptyController extends RestController{
                 break;
             case 'delete':// 删除资源
                 $id = intval($name);
+                slog($id);
                 if($find = $model->find($id)){
                     $result = $model->delete($id);
+
                     $code = $result? 200: 404;
                 }else{
                     $result = false;

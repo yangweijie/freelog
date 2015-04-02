@@ -36,6 +36,8 @@ class EmptyController extends HomeController{
 		            $this->feed($type);
 		            break;
 		        case 'mine':
+		        	if(!is_login())
+		        		$this->error('尚未登录，请登录后再访问', "User/login");
 		            $Index = new IndexController();
 		            $Index->mine();
 		            break;

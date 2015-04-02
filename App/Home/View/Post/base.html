@@ -53,7 +53,9 @@
             <div class="container">
                 <nav class="blog-nav">
                     <a class="blog-nav-item active" href="{:U('/')}">首页</a>
+                    <?php if (is_login()): ?>
                     <a class="blog-nav-item" href="{:U('/mine/')}">我的文章</a>
+                    <?php endif ?>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><if condition="is_login()">{:session(
