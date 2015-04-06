@@ -62,7 +62,7 @@ class EmptyController extends RestController{
                     $result = false;
                     $data = $model->getError();
                 }else{
-                    $id = $puts[$model->pk];
+                    $id = intval($name);
                     if($find = $model->find($id)){
                         $result = false !== $model->save($puts);
                         $code = $result? 200: 404;
