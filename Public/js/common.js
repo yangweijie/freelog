@@ -1,6 +1,4 @@
 $(function(){
-
-
 	//ajax get请求
 	$('.ajax-get').click(function(){
 		var target;
@@ -116,8 +114,97 @@ $(function(){
 		return false;
 	});
 
-	//ajax  DELETE 的实现
+	//ajax PUT 的实现
+	$('.ajax-put').on('click', function(){
+			var target,query,form;
+			var target_form = $(this).attr('target-form');
+			var that = this;
+			var nead_confirm = false;
+			if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
+				form = $('.'+target_form);
+				if(form.lenght < 1 )
+					alert('表单选择不正确');
 
+				if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
+					form = $('.hide-data');
+					query = form.serialize();
+				}else if (form.get(0)==undefined){
+					return false;
+				}else if ( form.get(0).nodeName=='FORM' ){
+					if ( $(this).hasClass('confirm') ) {
+						if(!confirm('确认要执行该操作吗?')){
+							return false;
+						}
+					}
+					if($(this).attr('url') !== undefined){
+						target = $(this).attr('url');
+					}else{
+						target = form.get(0).action;
+					}
+					query = form.serialize();
+				}else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
+					form.each(function(k,v){
+						if(v.type=='checkbox' && v.checked==true){
+							nead_confirm = true;
+						}
+					})
+					if ( nead_confirm && $(this).hasClass('confirm') ) {
+						if(!confirm('确认要执行该操作吗?')){
+							return false;
+						}
+					}
+					query = form.serialize();
+				}else{
+					if ( $(this).hasClass('confirm') ) {
+						if(!confirm('确认要执行该操作吗?')){
+							return false;
+						}
+					}
+					query = form.find('input,select,textarea').serialize();
+				}
+				$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+				$.ajax({
+					url: target,
+					type: 'put',
+					data:query,
+					success: function(data) {
+			            if (data.code >= 200 && data.code < 400) {
+							console.log('success');
+							if (data.url) {
+								notify(data.info + ' 页面即将自动跳转~','success');
+							}else{
+								notify(data.info ,'success');
+							}
+							setTimeout(function(){
+								$(that).removeClass('disabled').prop('disabled',false);
+								if(data.url)
+									location.href = data.url;
+							},1500);
+						}else{
+							notify(data.info, 'error');
+							setTimeout(function(){
+								$(that).removeClass('disabled').prop('disabled',false);
+								if (data.url) {
+									location.href = data.url;
+								}
+							}, 1500);
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						var code = jqXHR.status;
+						console.log(jqXHR);
+						if(404 == code ){
+							notify(jqXHR.responseJSON.info ,'error');
+						}else if(412 == code){
+							notify('记录不存在，无法更新' ,'error');
+						}
+					}
+				});
+			}
+			return false;
+		});
+
+	//ajax  DELETE 的实现
 	$('.ajax-delete').click(function(){
 		var target = $(this).attr('href');
 		var that = this;

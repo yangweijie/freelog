@@ -57,7 +57,10 @@ class UserController extends HomeController{
 	}
 
 	public function profile(){
-
+		$uid = is_login();
+		$info = M('Member')->find($uid);
+		$this->assign('info', $info);
+		$this->display();
 	}
 
 	public function logout(){

@@ -27,9 +27,9 @@ class HomeController extends Controller{
 
 	public function error($message='', $jumpUrl='', $ajax=false){
 		if(empty($ajax)){
-			$ajax = array('code'=>200);
+			$ajax = array('code'=>404);
 		}else{
-			$ajax = array_merge($ajax, array('code'=>200));
+			$ajax = array_merge($ajax, array('code'=>404));
 		}
 		parent::error($message, $jumpUrl, $ajax);
 	}

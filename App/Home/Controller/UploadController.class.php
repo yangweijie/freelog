@@ -69,4 +69,21 @@ class UploadController extends HomeController {
         d_f('upload', $return);
         return $return;
     }
+
+    public function crop($file, $x, $y, $width, $height){
+        $image = new \Think\Image();
+        $image->open('.'.$file);
+        //将图片裁剪为$widthx$height并保存为$tmp_file
+        $tmp_file = date('Y_m_d_h_i_s').'.'.$image->type();
+        $local_file = './Uploads/tmp/'.$tmp_file;
+        $image->crop($width, $height,$x,$y)->save($local_file);
+        if(!is_file($local_file)){
+            $this->error('生成裁剪文件失败');
+        }
+        $res = local_upload($local_file, 'Picture');
+        if($res['status'])
+            $this->success('裁剪成功', '', $res);
+        else
+            $this->error($res['error']);
+    }
 }
