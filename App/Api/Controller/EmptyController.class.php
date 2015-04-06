@@ -57,19 +57,20 @@ class EmptyController extends RestController{
                 }
                 break;
             case 'put': // 更新资源
-                $puts = $model->create();
-                if(false == $puts){
+                $puts = $model->create(I('put.'));
+                if(false === $puts){
                     $result = false;
                     $data = $model->getError();
-                }
-                $id = intval($name);
-                if($find = $model->find($id)){
-                    $result = false == $model->save($puts);
-                    $code = $result? 200: 404;
                 }else{
-                    $result = false;
-                    $data = "record not found";
-                    $code = 412;
+                    $id = $puts[$model->pk];
+                    if($find = $model->find($id)){
+                        $result = false !== $model->save($puts);
+                        $code = $result? 200: 404;
+                    }else{
+                        $result = false;
+                        $data = "record not found";
+                        $code = 412;
+                    }
                 }
                 break;
             case 'post': // 新增资源
@@ -104,7 +105,7 @@ class EmptyController extends RestController{
         if($result){
             $this->success($data, $code);
         }else{
-            $this->success($data, $code);
+            $this->error($data, $code);
         }
     }
 
