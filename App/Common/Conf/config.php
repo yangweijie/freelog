@@ -1,5 +1,5 @@
 <?php
-define('URL_CALLBACK', 'http://freelog.coding.io//user/callback?type=');
+define('URL_CALLBACK', 'http://freelog.coding.io/user/callback?type=');
 
 $config = array(
 	//'配置项'=>'配置值'
