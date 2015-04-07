@@ -1,5 +1,5 @@
 <?php
-define('URL_CALLBACK', 'http://demo.cn/index.php?m=User&a=callback&type=');
+define('URL_CALLBACK', 'http://freelog.coding.io/index.php?m=User&a=callback&type=');
 
 $config = array(
 	//'配置项'=>'配置值'
@@ -63,8 +63,8 @@ $config = array(
 
     //新浪微博配置
     'THINK_SDK_SINA' => array(
-        'APP_KEY'    => '', //应用注册成功后分配的 APP ID
-        'APP_SECRET' => '', //应用注册成功后分配的KEY
+        'APP_KEY'    => '3073201486', //应用注册成功后分配的 APP ID
+        'APP_SECRET' => 'b3a79ef47b060e58a7ac51dc7d8747ec', //应用注册成功后分配的KEY
         'CALLBACK'   => URL_CALLBACK . 'sina',
     ),
 
