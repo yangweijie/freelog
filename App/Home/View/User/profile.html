@@ -70,7 +70,7 @@
   <div class="form-group">
   	<volist name="oauths" id="oauth">
   		<eq name="oauth.status" value="1">
-  			<label for="">已经绑定{$oauth.title}</label> <a href="{:U('/user/oauth','id='.$oauth['id'])}">取消绑定</a>
+  			<label for="">已经绑定{$oauth.title}</label> <a href="{:U('/user/unbindOauth','id='.$oauth['id'])}">取消绑定</a>
   		<else/>
   			<label for="">绑定{$oauth.title}</label> <a href="{:U('/user/oauth','type='.$oauth['type'])}">设置</a>
   		</eq>
