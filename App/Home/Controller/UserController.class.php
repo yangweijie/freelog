@@ -111,7 +111,7 @@ class UserController extends HomeController{
 				$token['create_time'] = $token['update_time'] = NOW_TIME;
 			}
 			$token['status'] = 1;
-			D('Sns')->add(M('Sns')->create($token), true);
+			M('Sns')->add(M('Sns')->create($token), array(), true);
 			$this->success('绑定成功', 'user/profile');
 		}
 	}
