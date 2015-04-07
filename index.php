@@ -1,5 +1,4 @@
 <?php
-	exit(123);
 	define('APP_PATH','./App/');
 	define('__APP__', '');
 	define('APP_DEBUG', 1);
