@@ -137,6 +137,7 @@ class UserController extends HomeController{
 				$this->error("解除{$sns['name']}授权失败");
 			}
 			M('Sns')->delete($id);
+			$this->success('解除绑定成功');
 		}else{
 			$this->error('尚未绑定，无需解绑');
 		}
