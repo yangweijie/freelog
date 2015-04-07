@@ -8,10 +8,12 @@ class SnsModel extends Model{
 		'sina'=>array(
 			'title'=>'微博',
 			'status'=>0,
+			'type'=>'sina',
 		),
 		'qq'=>array(
 			'title'=>'QQ',
 			'status'=>0,
+			'type'=>'qq',
 		)
 	);
 
