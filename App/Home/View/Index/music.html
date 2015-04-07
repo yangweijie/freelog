@@ -3,7 +3,7 @@
 	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id|get_nickname_by_uid}</a></p>
 	<if condition="1 == count($post['content'])">
 		<p class="blog-post-content single">
-			<audio src="{$post.content.0.id|get_file}" preload="true"></audio>
+			<audio src="{$post.content.0.id|get_file}" preload="false"></audio>
 			<div class="track-details">
 			  {$post.content.0.title}
 			</div>
@@ -11,7 +11,7 @@
 	<else/>
 		<volist name="post.content" id="music">
 			<p class="blog-post-content single">
-				<audio src="{$music.id|get_file}" preload="true"></audio>
+				<audio src="{$music.id|get_file}" preload="false"></audio>
 				<div class="track-details">
 				  {$music.title}
 				</div>
