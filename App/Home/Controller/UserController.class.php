@@ -59,6 +59,8 @@ class UserController extends HomeController{
 	public function profile(){
 		$uid = is_login();
 		$info = M('Member')->find($uid);
+		$oauths = D('Sns')->extendOauth($uid);
+		$this->assign('oauths', $oauths);
 		$this->assign('info', $info);
 		$this->display();
 	}
@@ -82,8 +84,8 @@ class UserController extends HomeController{
 
 		//加载ThinkOauth类并实例化一个对象
 		$name = ucfirst(strtolower($type)) . 'SDK';
-    	$names="Common\OauthSDK\sdk"."\\".$name;
-		$oauth=new $names();
+    	$names = "Common\OauthSDK\sdk"."\\".$name;
+		$oauth = new $names();
 		//腾讯微博需传递的额外参数
 		$extend = null;
 		// if($type == 'tencent'){
@@ -97,14 +99,45 @@ class UserController extends HomeController{
 
 		//获取当前登录用户信息
 		if(is_array($token)){
-			$oauth=new \Common\Controller\TypeEvent();
+			$uid = is_login();
+			$oauth = new \Common\Controller\TypeEvent();
 			$user_info = $oauth->$type($token);
+			$token['member_id'] = $uid;
+			$token['type'] = strtolower($user_info['type']);
+			if($exist = M('Sns')->where("member_id={$uid} AND type='{$token['type']}'")->find()){
+				$token['update_time'] = NOW_TIME;
+				$token['id'] = $exist['id'];
+			}else{
+				$token['create_time'] = $token['update_time'] = NOW_TIME;
+			}
+			$token['status'] = 1;
+			D('Sns')->add(M('Sns')->create($token), true);
+			$this->success('绑定成功', 'user/profile');
+		}
+	}
 
-			echo("<h1>恭喜！使用 {$type} 用户登录成功</h1><br>");
-			echo("授权信息为：<br>");
-			dump($token);
-			echo("当前登录用户信息为：<br>");
-			dump($user_info);
+	public function unbindOauth($id){
+		if($sns = M('Sns')->find($id)){
+			$data = array();
+			$name = ucfirst($sns['type']) . 'SDK';
+	    	$names = "Common\OauthSDK\sdk"."\\".$name;
+			$oauth = new $names($sns['access_token']);
+			switch ($sns['type']) {
+				case 'sina':
+					$data['ret'] = !$oauth->call('OAuth2/revokeoauth2');
+					break;
+				default:
+					$this->error('错误的第三方登录接口类型');
+					break;
+			}
+			if($data['ret'] == 0){
+
+			}else{
+				$this->error("解除{$sns['name']}授权失败");
+			}
+			M('Sns')->delete($id);
+		}else{
+			$this->error('尚未绑定，无需解绑');
 		}
 	}
 

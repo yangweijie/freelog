@@ -68,7 +68,14 @@
 	</label>
   </div>
   <div class="form-group">
-  	<label for="">绑定微博</label> <a href="{:U('/user/oauth','type=sina')}">设置</a>
+  	<volist name="oauths" id="oauth">
+  		<eq name="oauth.status" value="1">
+  			<label for="">已经绑定{$oauth.title}</label> <a href="{:U('/user/oauth','id='.$oauth['id'])}">取消绑定</a>
+  		<else/>
+  			<label for="">绑定{$oauth.title}</label> <a href="{:U('/user/oauth','type='.$oauth['type'])}">设置</a>
+  		</eq>
+  		<br>
+  	</volist>
   </div>
   <div class="form-group">
 	<input type="file" id="upload_file" name="file" style="width:44px">
