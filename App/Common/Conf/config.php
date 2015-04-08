@@ -110,6 +110,12 @@ $config = array(
         'APP_SECRET' => '', //应用注册成功后分配的KEY
         'CALLBACK'   => URL_CALLBACK . 'weixin',
     ),
+
+    //微信相关
+    'WEIXIN'=>array(
+        'TOKEN'  => 'freelog',
+        'AESKEY' => 'PbYuJRJ1UKYzpZoH7PUA6MQySGaqiLTit0XveNPtWQ',
+    ),
 );
 
 if(isset($_ENV['VCAP_SERVICES'])){

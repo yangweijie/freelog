@@ -23,7 +23,6 @@ class UserController extends HomeController{
 				}
 				$this->error($error);
 			}
-
 		} else { //显示登录表单
 			$this->display();
 		}
@@ -39,7 +38,7 @@ class UserController extends HomeController{
 				if($Member->add()){
 					if($Member->login($uid, $nickname)){
 						$Member->commit();
-						$this->success('注册成功',U('/mine'));
+						$this->success('注册成功',U('/user/login'));
 					} else {
 						$Member->rollback();
 						$this->error($Member->getError());
@@ -71,7 +70,7 @@ class UserController extends HomeController{
 
 		//加载ThinkOauth类并实例化一个对象
 		$name = ucfirst(strtolower($type)) . 'SDK';
-    	$names ="Common\OauthSDK\sdk"."\\".$name;
+    	$names = "Common\OauthSDK\sdk"."\\".$name;
 		$oauth = new $names();
 
 		//跳转到授权页面
@@ -104,6 +103,7 @@ class UserController extends HomeController{
 			$user_info = $oauth->$type($token);
 			$token['member_id'] = $uid;
 			$token['type'] = strtolower($user_info['type']);
+			$token['name'] = D('Sns')->default_oauths[$token['type']]['title'];
 			if($exist = M('Sns')->where("member_id={$uid} AND type='{$token['type']}'")->find()){
 				$token['update_time'] = NOW_TIME;
 				$token['id'] = $exist['id'];
