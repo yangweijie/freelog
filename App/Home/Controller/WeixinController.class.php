@@ -13,6 +13,7 @@ namespace Home\Controller;
 
 use Think\Controller;
 use Com\Wechat;
+use Com\WechatAuth;
 
 class WeixinController extends Controller{
     /**
@@ -72,6 +73,17 @@ class WeixinController extends Controller{
              * $wechat->replyNewsOnce($title, $discription, $url, $picurl); //回复单条图文消息
              *
              */
+        }
+    }
+
+    //获取带参二维码
+    public function weixinQr($sence_id, $expire_seconds = 0){
+        $wechatauth = new WechatAuth(C('WEIXIN.APPID'), C('WEIXIN.SECRET'));
+        $result = $wechatauth->qrcodeCreate($sence_id, $expire_seconds);
+        if(isset($result['errcode'])){
+            return false;
+        }else{
+            return $wechatauth->showqrcode($result['ticket']);
         }
     }
 }
