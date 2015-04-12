@@ -1,0 +1,33 @@
+<extend name="Public/base" />
+<block name="body">
+    <div class="main-title location">
+        <h2><i>当前位置：</i> 用户管理</h2>
+    </div>
+    <div class="typecho-table-wrap">
+        <form action="{:U('delete')}" method="post" id="del_form">
+            <table id="del_table" class="table table-hover">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" name="checkAll"></th>
+                    <th>用户名</th>
+                    <th>创建时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td><input type="checkbox" name="id[]" value="{$vo.id}" id="checkEach"></td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="name" data-type="text" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}">{$vo.name}</a>
+                        </td>
+                        <td>{$vo.ctime|date="Y-m-d h:i:s",###} </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="pagination">
+        <button class="find_btn" id="batch_del">删除</button>
+    </div>
+</block>

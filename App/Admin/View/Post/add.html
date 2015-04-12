@@ -1,0 +1,172 @@
+<extend name="Public/base" disabled="del_batch,editable"/>
+
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css"/>
+</block>
+<block name="js">
+    <script src="__STATIC__/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+    <script src="__STATIC__/tokeninput.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/Validform_v5.3.2.js"></script>
+</block>
+
+<block name="body">
+    <div class="main-title location">
+        <h2><i>当前位置：</i>新增文章</h2>
+    </div>
+    <form action="{:U('update')}" method="post" class="addform">
+    <div class="span8">
+        <div class="control-group">
+            <label class="control-label"><span class="must">*</span>标题:<span class="Validform_checktip"></span></label>
+            <div class="controls">
+                <input type="text" name="title" class="input-block-level" datatype="*" errormsg="存在特殊字符" nullmsg="标题必须" value="{:I('title')}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">标识：<span class="Validform_checktip"></span></label>
+            <div class="controls">
+                <input type="text" name="name" class="input" datatype="s" errormsg="存在特殊字符" nullmsg="标识必须">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">描述：<span class="check-tips"></span></label>
+            <div class="controls">
+                <textarea name="description" id="description" cols="30" rows="0" class="w-90 textarea text-l"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">内容：<span class="check-tips"></span></label>
+            <div class="controls">
+                <textarea name="content" id="content" cols="30" rows="0">{:I('content')}</textarea>
+                {:hook('adminArticleEdit', array('name'=>'content','value'=>''))}
+            </div>
+        </div>
+        <input type="hidden" name="model" value="Article" />
+        <button type="submit" class="primary no-refresh" target-form="addform">确 定</button>
+        <button onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+    <div class="span4">
+        <div class="tabbable" id="tabs-3">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#panel-1">基本</a></li>
+                <li><a data-toggle="tab" href="#panel-2">扩展</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="panel-1">
+                    <div class="control-group">
+                        <label class="control-label">类型：<span class="check-tips"></span></label>
+                        <div class="controls">
+                            <select name="type">
+                                <option value="1">普通</option>
+                                <option value="2">单页</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">分类：<span class="check-tips"></span></label>
+                        <div class="controls">
+                            <select name="cate_id">
+                                <option value="0">请选择</option>
+                                <volist name="nav_tree" id="cate">
+                                    <option value="{$cate.id}"<eq name="_GET.cate_id" value="$cate.id"> selected</eq>>{$cate.title_show}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">标签：</label>
+                        <div class="controls">
+                            <textarea name="tags" id="tags"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="panel-2">
+                    <div class="control-group">
+                        <label class="control-label">外链：<span class="check-tips"></span></label>
+                        <div class="controls">
+                            <input type="text" name="link_id" class="input_style input_focus content_text" value="{:I('url')}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">封面：<span class="check-tips"></span></label>
+                        <div class="controls">
+                            <include file="Public:upload" button_text="上传" file_type_desc="image files" file_type_exts="*.jpg;*.png;*.jpeg;*.gif" target="coverUpload" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">排序：<span class="check-tips"></span></label>
+                        <div class="controls">
+                            <input class="input_style input_focus content_text" type="text" name="sort" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script type="text/javascript">
+    $(function() {
+        $(".addform").Validform({
+            tiptype: 2
+        });
+    })
+    // tag autocomplete 提示
+    var tags = $('#tags'), tagsPre = [];
+
+    if (tags.length > 0) {
+        var items = tags.val().split(','), result = [];
+        for (var i = 0; i < items.length; i ++) {
+            var tag = items[i];
+
+            if (!tag) {
+                continue;
+            }
+
+            tagsPre.push({
+                id      :   tag,
+                tags    :   tag
+            });
+        }
+
+        tags.tokenInput(<?php
+        $data = array();
+        foreach ($alltags as $value) {
+            $data[] = array('id' => $value['title'], 'tags'=> $value['title']);
+        }
+        echo json_encode($data);
+        ?>, {
+            propertyToSearch:   'tags',
+            tokenValue      :   'tags',
+            searchDelay     :   0,
+            preventDuplicates   :   true,
+            animateDropdown :   false,
+            hintText        :   '请输入标签名',
+            noResultsText   :   '此标签不存在, 按回车创建',
+            prePopulate     :   tagsPre,
+
+            onResult        :   function (result, query) {
+                if (!query) {
+                    return result;
+                }
+                if (!result) {
+                    result = [];
+                }
+                if (!result[0] || result[0]['id'] != query) {
+                    result.unshift({
+                        id      :   query,
+                        tags    :   query
+                    });
+                }
+                return result.slice(0, 5);
+            }
+        });
+
+        // tag autocomplete 提示宽度设置
+        $('#token-input-tags').focus(function() {
+            var t = $('.token-input-dropdown'),
+                offset = t.outerWidth() - t.width();
+            t.width($('.token-input-list').outerWidth() - offset);
+        });
+    }
+    </script>
+</block>

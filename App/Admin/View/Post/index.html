@@ -1,0 +1,88 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title location">
+        <h2>
+            <i>当前位置：</i>
+            <gt name="_GET.cate_id" value="1">
+            <a href="{:U('index?cate_id='.$current_parent['cate_id'])}" class="nav_a">返回上级</a>
+            <else />文章</gt>
+            <a href="{:U('add')}">新增</a>
+        </h2>
+    </div>
+    <button class="pull-right" id="sortButton" data-operate="__URL__/sort/value/Article-">排序</button>
+    <form class="form-search form-inline" action="{:U('')}" method="get">
+        <label for="title">中文名：</label>
+        <input class="text-s" type="text" name="title" value="{:I('title')}" />
+        <label for="cate_id">分类：</label>
+        <select name="cate_id">
+            <option value="">请选择</option>
+            <volist name="nav_tree" id="cate">
+                <option value="{$cate.id}"<eq name="_GET.cate_id" value="$cate.id"> selected</eq>>{$cate.title_show}</option>
+            </volist>
+        </select>
+        <button type="submit">筛选</button>
+
+    </form>
+    <div class="typecho-table-wrap">
+        <form action="{:U('delete')}" method="get" id="del_form">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" name="checkAll"></th>
+                        <th>中文名</th>
+                        <th>英文名</th>
+                        <th>类型</th>
+                        <th>描述</th>
+                        <th>自定义url</th>
+                        <th>状态</th>
+                        <th>排序</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td><input type="checkbox" name="id[]" value="{$vo.id}" class="ids"></td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="title" data-type="text" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}">{$vo.title}</a>
+                            <a href="{:U('edit',array('id'=>$vo['id']))}">编辑</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="name" data-type="text" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}" data-value="{$vo.name}">{$vo.name|wb_substr="5"}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable group" data-name="cate_id" data-type="select" data-pk="{$vo.id}" data-source="{:U('editbleGetCate')}" sourceError="获取分类失败" data-url="{:U('ajaxUpdate')}" data-value="{$vo.cate_id}">{$vo.cate_title}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="description" data-type="textarea" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}" data-value="{$vo.description}">{$vo.description|wb_substr="15"}</a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="link" data-type="text" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}" data-value="{$vo.link_id}"><empty name="vo.link_id">无<else />有</empty></a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable status" data-name="status" data-type="select" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}" data-source="[{value: 0, text: '禁用'},{value: 1, text: '启用'}]" data-value="{$vo.status}"></a>
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="editable" data-name="sort" data-type="text" data-pk="{$vo.id}" data-url="{:U('ajaxUpdate')}">{$vo.sort}</a>
+                        </td>
+                        <td>
+                            <span title="{$vo.create_time|date="Y-m-d h:i:s",###}">{$vo.create_time|date="y/m/d h:i",###}</span>
+                        </td>
+                        <td>
+                            <present name="vo.update_time">
+                                <span title="{$vo.update_time|date="Y-m-d h:i:s",###}">{$vo.update_time|date="y/m/d h:i",###}</span>
+                            </present>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="pagination pagination-right">
+        <button class="pull-left" id="batch_del">删除</button>
+        {$_page}
+    </div>
+</block>

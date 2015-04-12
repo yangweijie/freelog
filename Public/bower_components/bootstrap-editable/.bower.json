@@ -1,0 +1,14 @@
+{
+  "name": "bootstrap-editable",
+  "homepage": "https://github.com/vitalets/bootstrap-editable",
+  "_release": "f74be3a8b0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f74be3a8b0b0da77d7727fc85fa5f8199b92124a"
+  },
+  "_source": "git://github.com/vitalets/bootstrap-editable.git",
+  "_target": "*",
+  "_originalSource": "bootstrap-editable",
+  "_direct": true
+}

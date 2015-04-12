@@ -1,0 +1,54 @@
+<div class="controls">
+    <input type="file" id="upload_picture_file_upload">
+    <input type="hidden" name="cover_id" id="cover_id_file_upload" />
+</div>
+<script type="text/javascript">
+    <present name="record">
+    var no_pic =  '{$record.cover_id|get_cover="path"}' || '__PUBLIC__/images/no-cover.png';
+    <else />
+    var no_pic =  '__PUBLIC__/images/no-cover.png';
+    </present>
+    //上传图片
+    /* 初始化上传插件 */
+    $("#upload_picture_file_upload").uploadify({
+        "width"           : 200,
+        "height"          : 150,
+        "buttonImage"     : no_pic,
+        "multi": false,
+        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+        "fileObjName"     : "cover",
+        "buttonText"      : "[button_text]",
+        'buttonClass'     : "btn_upload",
+        "formData": {
+            'session_id': '{:session_id()}',
+            'ajax': 1
+        },
+        "uploader"        : "{:U('[target]')}",
+        "removeCompleted": true,
+        "removeTimeout"   : 1,
+        "fileSizeLimit": '10MB',
+        "fileTypeDesc": '[file_type_desc]',
+        "fileTypeExts"    : '[file_type_exts]',
+        "onFallback" : function() {
+            $.thinkbox.error("未检测到兼容版本的Flash");
+        },
+        "onUploadSuccess" : uploadPicturefile_upload,
+        "onUploadError": function(file, errorCode, errorMsg, errorString) {
+            var msg = '<a title="' + errorString + '">上传失败<a/>';
+            $.thinkbox.error(msg);
+        }
+    });
+    function uploadPicturefile_upload(file, data){
+        console.log(data);
+        var data = $.parseJSON(data);
+
+        var src = '';
+        if(data.status){
+            $("#cover_id_file_upload").val(data.id);
+            src = data.url || '__ROOT__' + data.path;
+            $("#upload_picture_file_upload").uploadify('settings', 'buttonImage', src);
+        } else {
+            $.thinkbox.error(data.info);
+        }
+    }
+</script>

@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+    <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>{:C('WEB_SITE_TITLE')}</title>
+        <script src='__BOWER__/nprogress/nprogress.js'></script>
+        <link rel='stylesheet' href='__BOWER__/nprogress/nprogress.css'/>
+        <script type="text/javascript" src="__BOWER__/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="__JS__/common.js"></script>
+        <script type="text/javascript">
+            (function() {
+                var ThinkPHP = window.Think = {
+                    "ROOT": "__ROOT__", //当前网站地址
+                    "APP": "__APP__", //当前项目地址
+                    "PUBLIC": "__PUBLIC__", //项目公共目录地址
+                    "DEEP": "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+                    "MODEL": ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+                    "VAR": ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+                }
+            })();
+            $(function(){
+                $('img[src=""]').attr('src', '__PUBLIC__/images/no-cover.png');
+                $('img').error(function(){
+                    this.src = '__PUBLIC__/images/no-cover.png';
+                })
+            })
+        </script>
+        <script type="text/javascript" src="__STATIC__/think.js"></script>
+        <script type="text/javascript">
+            /*获取复选框的值*/
+            function getIdList() {
+                var id = new Array();
+                var i = 0;
+                $(":checkbox[name='id[]']:checked").each(function() {
+                    id[i] = $(this).val();
+                    i++;
+                });
+                return id;
+            }
+
+            var url = window.location.pathname + window.location.search;
+            url = url.replace(/(\/(p)\/\d+)|(&p=\d+)|(\/(id)\/\d+)|(&id=\d+)|(\/(group)\/\d+)|(&group=\d+)/, "");
+            url = url.replace('.html', '');
+            //input 和textarea 只读和禁用时 退格在ie下会自动后退的bug
+            document.documentElement.onkeydown = function(evt){
+                var b = !!evt, oEvent = evt || window.event;
+                if (oEvent.keyCode == 8) {
+                    var node = b ? oEvent.target : oEvent.srcElement;
+                    var reg = /^(input|textarea)$/i, regType = /^(text|textarea)$/i;
+                    if (!reg.test(node.nodeName) || !regType.test(node.type) || node.readOnly || node.disabled) {
+                        if (b){
+                            oEvent.stopPropagation();
+                        }else{
+                            oEvent.cancelBubble = true;
+                            oEvent.keyCode = 0;
+                            oEvent.returnValue = false;
+                        }
+                    }
+                }
+            }
+
+            //ajax公共回调
+            function defCallback(data, url) {
+                var jump = url || '';
+                if (data.code >= 200 && data.code < 400) {
+                    notify(data.info, 'success');
+                    setTimeout(function(){
+                        if(jump !== '')
+                            location.href = jump;
+                    },1500);
+                } else {
+                    notify(data.info, 'error');
+                }
+            }
+
+            $('.alert').click(function(){
+                $(this).parents('.message').slideUp(200);
+                return false;
+            });
+
+        </script>
+    <!--[if lt IE 9]>
+    <script src="__JS__/html5shiv.js"></script>
+    <script src="__JS__/respond.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="__BOWER__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__JS__/admin.js"></script>
+    <block name="js"></block>
+    <link rel="stylesheet" type="text/css" href="__BOWER__/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/admin_custom.css">
+    <link rel="stylesheet" href="__BOWER__/jqnotifybar/css/jquery.notifyBar.css">
+    <script type="text/javascript" src="__BOWER__/jqnotifybar/jquery.notifyBar.js"></script>
+    <block name="style"></block>
+</head>
+<body>
+    <!--[if lt IE 8]>
+    <div class="browsehappy">当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.</div>
+    <![endif]-->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{:U('System/index')}">首页 <span class="sr-only">(current)</span></a></li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">资源 <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Post/text')}">标签</a></li>
+                            <li><a href="{:U('Post/picture')}">图片库</a></li>
+                            <li><a href="{:U('Post/music')}">文件库</a></li>
+                          </ul>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">文章 <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Post/text')}">文章</a></li>
+                            <li><a href="{:U('Post/picture')}">图片</a></li>
+                            <li><a href="{:U('Post/music')}">音乐</a></li>
+                            <li><a href="{:U('Post/video')}">视频</a></li>
+                          </ul>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">微信 <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Weixin/menu')}">菜单</a></li>
+                            <li><a href="{:U('Weixin/msg')}">消息</a></li>
+                            <li><a href="{:U('Weixin/media')}">资源库</a></li>
+                          </ul>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">配置 <span class="caret"></span></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Config/group?id=1')}">网站设置</a></li>
+                            <li><a href="{:U('Config/index')}">配置列表</a></li>
+                          </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="divider-vertical"></li>
+                        <li><a href="javascript:;">{:get_admin_name()}</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="{:U('System/cleancache')}" class="ajax-get">清除缓存</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="{:U('System/logout')}">登出</a></li>
+                        <li class="divider-vertical"></li>
+                        <li><a href="{:U('/')}">网站</a></li>
+                    </ul>
+                </div>
+                <!-- /.nav-collapse -->
+            </div>
+        </div>
+        <!-- /navbar-inner -->
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <block name="body"></block>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <block name="sort">
+        <script type="text/javascript">
+            $(function(){
+                //排序按钮
+                $("#sortButton").on("click",function(){
+                    var id = getIdList();
+                    if(id.length < 2){
+                        updateAlert('至少选择一个', 'notice', false);
+                        setTimeout(function(){
+                            updateAlert('default', 'notice');
+                        },1500);
+                        return false;
+                    }
+                    var url=$(this).data("operate");
+                    url=url+id.join(",");
+                    var pop = $.thinkbox.load(url,{
+                        title:"拖动数据排序",
+                        onload:function(data){
+                            $data = $(data);
+                            $("#sortUl", $data).dragsort({
+                                dragSelector:'li',
+                                dragEnd:function(){
+                                    $("#hidden").attr("value","");
+                                    $(".getSort").each(function(){
+                                        if($("#hidden").attr("value")==""){
+                                            $("#hidden").attr("value",$(this).attr("value"));
+                                        }
+                                        else{
+                                            $("#hidden").attr("value",$("#hidden").attr("value")+','+$(this).attr("value"));
+                                        }
+                                    })
+                                }
+                            });
+                            return $data;
+                        }
+                    });
+                });
+            });
+        </script>
+    </block>
+    <block name="script"></block>
+    <block name="del_batch">
+        <script type="text/javascript">
+        $(function(){
+            $('#batch_del').click(function(){
+                if($('#del_form input[name="id[]"]:checked').length ==0){
+                    notify('至少选择一个', 'error');
+                }else{
+                    if(confirm('你确定删除吗')){
+                        ajaxForm('#del_form', $('#del_form').attr('action'), $('#del_form').serialize(),function(data){
+                            defCallback(data,'{:U('')}');
+                        });
+                    }
+                }
+                return false;
+            });
+        })
+        </script>
+    </block>
+
+    <block name="editable">
+    <link rel="stylesheet" type="text/css" href="__BOWER__/bootstrap-editable/src/css/bootstrap-editable.css">
+    <script type="text/javascript" src="__BOWER__/bootstrap-editable/src/js/bootstrap-editable.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            //初始化editable
+            $('.editable').editable({
+                emptytext: '空',
+                success: function(response, newValue) {
+                    if (!response.status) {
+                        return response.info;
+                    } else {
+                        updateAlert('更新成功', 'success');
+                        setTimeout(function(){
+                            updateAlert('default', 'success');
+                        },1500);
+                    }
+                }
+            });
+        })
+    </script>
+    </block>
+</body>
+</html>

@@ -19,13 +19,6 @@
 	}
 
 	/**
-	 * 判断是否登录，如果登录了返回uid
-	 */
-	function is_login(){
-		return session('?user')? session('user.uid'): 0;
-	}
-
-	/**
 	 * 快速文件数据读取和保存 针对简单类型数据 字符串、数组
 	 * @param string $name 缓存名称
 	 * @param mixed $value 缓存值
@@ -210,3 +203,278 @@
         	return array('status'=>1, 'id'=>$id, 'path'=>$data['path']);
         }
 	}
+
+	//安全过滤函数
+function filter($str){
+    if(is_string($str) && ($arr=json_decode($str,true)) && is_array($arr))
+    {
+        //如果是json，则转换为数组进行过滤
+        $arr=array_map('filter',$arr);
+        return json_encode($arr,JSON_PRETTY_PRINT);
+    }
+    if(is_array($str))
+    {
+        return array_map('filter',$str);
+    }
+    //没有过滤script字符，要严格对网址格式进行判断
+    return str_replace('\\','&#x005C;',htmlentities(strip_tags(trim($str)),ENT_QUOTES,'UTF-8'));
+}
+
+/**
+ * 数组转字符串
+ */
+function arr2str($arr, $sep = ',') {
+    return implode($sep, $arr);
+}
+
+/**
+ * 字符串转数组
+ */
+function str2arr($str, $sep = ',') {
+    return explode($sep, $str);
+}
+
+//文件名转成文件系统对应的编码
+function file_iconv($name) {
+    return iconv('UTF-8', C('FILE_SYSTEM_ENCODE'), $name);
+}
+
+function url($link = '', $param = '', $default = '') {
+    return $default ? $default : U($link, $param);
+}
+
+//删除目录及下面文件（递归）
+function rmdirr($dirname){
+    if (!file_exists($dirname)) {
+        return false;
+    }
+    if (is_file($dirname) || is_link($dirname)) {
+        return unlink($dirname);
+    }
+    $dir = dir($dirname);
+    if ($dir) {
+        while (false !== $entry = $dir->read()) {
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
+            rmdirr($dirname . DIRECTORY_SEPARATOR . $entry);
+        }
+    }
+    $dir->close();
+    return rmdir($dirname);
+}
+
+/**
+ * 把返回的数据集转换成Tree
+ * @access public
+ * @param array $list 要转换的数据集
+ * @param string $pid parent标记字段
+ * @param string $level level标记字段
+ * @return array
+ */
+function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0) {
+    // 创建Tree
+    $tree = array();
+    if (is_array($list)) {
+        // 创建基于主键的数组引用
+        $refer = array();
+        foreach ($list as $key => $data) {
+            $refer[$data[$pk]] = & $list[$key];
+        }
+        foreach ($list as $key => $data) {
+            // 判断是否存在parent
+            $parentId = $data[$pid];
+            if ($root == $parentId) {
+                $tree[] = & $list[$key];
+            } else {
+                if (isset($refer[$parentId])) {
+                    $parent = & $refer[$parentId];
+                    $parent[$child][] = & $list[$key];
+                }
+            }
+        }
+    }
+    return $tree;
+}
+
+/**
+ * 将list_to_tree的树还原成列表
+ * @param  array $tree  原来的树
+ * @param  string $child 孩子节点的键
+ * @param  string $order 排序显示的键，一般是主键 升序排列
+ * @param  array  $list  过渡用的中间数组，
+ * @return array        返回排过序的列表数组
+ * @author yangweijie <yangweijiester@gmail.com>
+ */
+function tree_to_list($tree, $child = '_child', $order='id', &$list = array()){
+    if(is_array($tree)) {
+        $refer = array();
+        foreach ($tree as $key => $value) {
+            $reffer = $value;
+            if(isset($reffer[$child])){
+                unset($reffer[$child]);
+                tree_to_list($value[$child], $child, $order, $list);
+            }
+            $list[] = $reffer;
+        }
+        $list = list_sort_by($list, $order, $sortby='asc');
+    }
+    return $list;
+}
+
+/**
+ * 对查询结果集进行排序
+ * @access public
+ * @param array $list 查询结果
+ * @param string $field 排序的字段名
+ * @param array $sortby 排序类型
+ * asc正向排序 desc逆向排序 nat自然排序
+ * @return array
+ */
+function list_sort_by($list, $field, $sortby = 'asc') {
+    if (is_array($list)) {
+        $refer = $resultSet = array();
+        foreach ($list as $i => $data)
+            $refer[$i] = &$data[$field];
+        switch ($sortby) {
+            case 'asc': // 正向排序
+                asort($refer);
+                break;
+            case 'desc':// 逆向排序
+                arsort($refer);
+                break;
+            case 'nat': // 自然排序
+                natcasesort($refer);
+                break;
+        }
+        foreach ($refer as $key => $val)
+            $resultSet[] = &$list[$key];
+        return $resultSet;
+    }
+    return false;
+}
+
+/**
+ * 在数据列表中搜索
+ * @access public
+ * @param array $list 数据列表
+ * @param mixed $condition 查询条件
+ * 支持 array('name'=>$value) 或者 name=$value
+ * @return array
+ */
+function list_search($list,$condition) {
+    if(is_string($condition))
+        parse_str($condition,$condition);
+    // 返回的结果集合
+    $resultSet = array();
+    foreach ($list as $key=>$data){
+        $find = false;
+        foreach ($condition as $field=>$value){
+            if(isset($data[$field])) {
+                if(0 === strpos($value,'/')) {
+                    $find = preg_match($value,$data[$field]);
+                }elseif($data[$field] == $value){
+                    $find = true;
+                }
+            }
+        }
+        if($find)
+            $resultSet[] = &$list[$key];
+    }
+    return $resultSet;
+}
+
+//下载文件
+function download_file($file, $o_name = '') {
+    if (is_file($file)) {
+        $length = filesize($file);
+        $type = mime_content_type($file);
+        $showname = ltrim(strrchr($file, '/'), '/');
+        if ($o_name)
+            $showname = $o_name;
+        header("Content-Description: File Transfer");
+        header('Content-type: ' . $type);
+        header('Content-Length:' . $length);
+        if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) { //for IE
+            header('Content-Disposition: attachment; filename="' . rawurlencode($showname) . '"');
+        } else {
+            header('Content-Disposition: attachment; filename="' . $showname . '"');
+        }
+        readfile($file);
+        exit;
+    } else {
+        exit('文件不存在');
+    }
+}
+
+/**
+ * Description 截取指定长度的字符串 微博使用 汉字或全角字符占1个长度, 英文字符占0.5个长度
+ * @param string $str
+ * @param int $len = 140 截取长度
+ * @param string $ext = '' 添加的后缀
+ * @return string $output
+ */
+function wb_substr($str, $len = 140, $dots = 1, $ext = '') {
+    $str = htmlspecialchars_decode(strip_tags(htmlspecialchars($str)));
+    $strlenth = 0;
+    $output = '';
+    preg_match_all("/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/", $str, $match);
+    foreach ($match[0] as $v) {
+        preg_match("/[\xe0-\xef][\x80-\xbf]{2}/", $v, $matchs);
+        if (!empty($matchs[0])) {
+            $strlenth += 1;
+        } elseif (is_numeric($v)) {
+            $strlenth += 0.545;
+        } else {
+            $strlenth += 0.475;
+        }
+        if ($strlenth > $len) {
+            $output .= $ext;
+            break;
+        }
+        $output .= $v;
+    }
+    if ($strlenth > $len && $dots)
+        $output.='...';
+    return $output;
+}
+
+/**
+ * 字符串截取，支持中文和其他编码
+ * @static
+ * @access public
+ * @param string $str 需要转换的字符串
+ * @param string $start 开始位置
+ * @param string $length 截取长度
+ * @param string $charset 编码格式
+ * @param string $suffix 截断显示字符
+ * @return string
+ */
+function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true) {
+    if(function_exists("mb_substr"))
+        $slice = mb_substr($str, $start, $length, $charset);
+    elseif(function_exists('iconv_substr')) {
+        $slice = iconv_substr($str,$start,$length,$charset);
+        if(false === $slice) {
+            $slice = '';
+        }
+    }else{
+        $re['utf-8']   = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
+        $re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
+        $re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
+        $re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
+        preg_match_all($re[$charset], $str, $match);
+        $slice = join("",array_slice($match[0], $start, $length));
+    }
+    return $suffix ? $slice.'...' : $slice;
+}
+
+function highlight_map($str, $keyword) {
+    return str_replace($keyword, "<em class='keywords'>{$keyword}</em>", $str);
+}
+
+//删除文件前处理文件名
+function del_file($file) {
+    $file = file_iconv($file);
+    @unlink($file);
+}

@@ -1,0 +1,17 @@
+<div style="width:300px; max-height:440px; overflow:auto; margin:10px;">
+    <form action="__URL__/updateSort" method="post">
+        <div>
+            <ul id="sortUl">
+                <volist name="list" id="vo">
+                    <li value="{$vo.id}" class="getSort">{$vo.id}(ID值)、{$vo.title}</li>
+                </volist>
+                <input id="hidden" name="id" type="hidden" value="{$id}" />
+                <input name="model" type="hidden" value="{$model}" />
+            </ul>
+        </div>
+        <div class="formsave">
+            <input name="save" type="submit" value="保存" class="primary"/>
+            <button name="clear" value="清空排序">清空排序</button>
+        </div>
+    </form>
+</div>

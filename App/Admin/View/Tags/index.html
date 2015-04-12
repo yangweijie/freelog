@@ -1,0 +1,86 @@
+<extend name="Public:bg_theme" />
+<block name="content">
+    <!-- bootstrap -->
+    <script type="text/javascript" src="__PUBLIC__/js/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/js/bootstrap/css/bootstrap.css">
+    <!-- x-editable -->
+    <script type="text/javascript" src="__PUBLIC__/js/bootstrap-editable-1.4.5/bootstrap-editable/js/bootstrap-editable.js"></script>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/js/bootstrap-editable-1.4.5/bootstrap-editable/css/bootstrap-editable.css">
+
+    <div class="location">
+        <i>当前位置：</i>
+        <a href="{:U('')}" class="nav_a">附件管理</a>
+    </div>
+    <div class="title_form">
+        <div class="title_search">
+            <form action="{:U('')}" method="post">
+                <label for="">源文件名：</label>
+                <input type="text" name="name" class="title_text input_style input_focus" value="{:I('name')}">
+                <button class="find_btn">搜索</button>
+            </form>
+        </div>
+        <a href="{:U('add')}"><button class="find_btn add_btn">添加</button></a>
+    </div>
+    <div class="content_table">
+        <form action="{:U('delete')}" method="post" id="del_form">
+            <table id="del_table">
+                <tr>
+                    <th><input type="checkbox" name="checkAll"></th>
+                    <th>源文件名</th>
+                    <th>路径</th>
+                    <th>文件名</th>
+                    <th>创建时间</th>
+                </tr>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="id[]" value="{$vo.id}" id="checkEach"></td>
+                        <td>
+                            {$vo.name}
+                        </td>
+                        <td>
+                            {$vo.savepath}
+                        </td>
+                        <td>
+                            {$vo.savename}
+                        </td>
+                        <td>
+                            {$vo.create_time|date="Y-m-d h:i:s",###}
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+    </div>
+    <div class="content_btn">
+        <input type="hidden" name="model" value="File">
+        <button class="find_btn" id="batch_del">删除</button>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function() {
+        //全选
+        $("input[name='checkAll']").click(function() {
+            $("input#checkEach").attr("checked", this.checked);
+        })
+        //初始化editable
+        $('.editable').editable({
+            emptytext: '空',
+            success: function(response, newValue) {
+                if (!response.status) {
+                    return response.info;
+                }
+            },
+            mode: 'inline'
+        });
+
+        //批量删除
+        <include file="Public:batch_delete" />
+    })
+</script>
+</block>
+<block name="foot_js">
+    $(function(){
+    //左侧导航子页面高亮选中
+    highlight_sidebar('{:U('index')}');
+    });
+</block>

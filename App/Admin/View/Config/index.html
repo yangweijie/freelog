@@ -1,0 +1,121 @@
+<extend name="Public:base"/>
+
+<block name="body">
+    <div class="main-title location">
+        <h2>配置管理 [ <present name="Think.get.group">
+         <a href="{:U('index')}">全部</a><else/><strong>全部</strong></present>&nbsp;<foreach name="group" item="vo">
+        <neq name="group_id" value="$key">
+         <a href="{:U('index?group='.$key)}">{$vo}</a><else/><strong>{$vo}</strong></neq>&nbsp;
+        </foreach> ]
+        <a href="{:U('add')}">新 增</a>
+        </h2>
+    </div>
+
+    <div class="data-table table-striped">
+        <div class="clearfix">
+        <button class="list_sort" url="{:U('sort?group='.I('group'),'','')}">排序</button>
+
+        <!-- 高级搜索 -->
+        <div class="search-form pull-right clearfix form-inline">
+            <div class="input-group mb10">
+                <input type="text" name="name" class="form-control text-s" value="{:I('name')}" placeholder="请输入配置名称">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" url="{:U('config/index')}" id="search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </span>
+            </div><!-- /input-group -->
+            <!-- <div class="input-append">
+                <input type="text" name="name" class="search-input text-s" value="{:I('name')}" placeholder="请输入配置名称">
+                <span class="sch-btn add-on" href="javascript:;" id="search" url="{:U('config/index')}"><i class="icon-search"></i></span>
+            </div> -->
+        </div>
+    </div>
+    <div class="typecho-table-wrap">
+    <form action="/api.php/config" method="DELETE" id="del_form">
+        <table class="table table-hover" id="del_table">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="checkAll">
+                    </th>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>标题</th>
+                    <th>分组</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <notempty name="list">
+                <volist name="list" id="config">
+                    <tr>
+                        <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$config.id}"></td>
+                        <td>{$config.id}</td>
+                        <td><a href="{:U('edit?id='.$config['id'])}">{$config.name}</a></td>
+                        <td>{$config.title}</td>
+                        <td>{$config.group|get_config_group}</td>
+                        <td>{$config.type|get_config_type}</td>
+                        <td>
+                            <a title="编辑" href="{:U('edit?id='.$config['id'])}">编辑</a>
+                            <a class="confirm ajax-get" title="删除" href="{:U('del?id='.$config['id'])}">删除</a>
+                        </td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+                </notempty>
+            </tbody>
+        </table>
+    </form>
+    </div>
+    <!-- 分页 -->
+    <div class="pagination">
+        <button class="pull-left" id="batch_del">删除</button>
+        <div class="pull-right">
+        {$_page}
+        </div>
+    </div>
+</block>
+
+<block name="js">
+    <script type="text/javascript">
+        $(function(){
+            //搜索功能
+            $("#search").click(function(){
+                var url = $(this).attr('url');
+                var query  = $('.search-form').find('input').serialize();
+                query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+                query = query.replace(/^&/g,'');
+                if( url.indexOf('?')>0 ){
+                    url += '&' + query;
+                }else{
+                    url += '?' + query;
+                }
+                window.location.href = url;
+            });
+            //回车搜索
+            $(".search-input").keyup(function(e){
+                if(e.keyCode === 13){
+                    $("#search").click();
+                    return false;
+                }
+            });
+            //点击排序
+            $('.list_sort').click(function(){
+                var url = $(this).attr('url');
+                var ids = $('.ids:checked');
+                var param = '';
+                if(ids.length > 0){
+                    var str = new Array();
+                    ids.each(function(){
+                        str.push($(this).val());
+                    });
+                    param = str.join(',');
+                }
+                if(url != undefined && url != ''){
+                    window.location.href = url + '/ids/' + param;
+                }
+            });
+        });
+    </script>
+</block>

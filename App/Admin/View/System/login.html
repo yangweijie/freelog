@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+ <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>{:C('WEB_SITE_TITLE')}</title>
+        <script type="text/javascript" src="__BOWER__/jquery/dist/jquery.js"></script>
+        <!--[if lt IE 9]>
+        <script src="__STATIC__/html5shiv.js"></script>
+        <script src="__STATIC__/respond.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="__BOWER__/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        var url = '';
+        </script>
+        <script type="text/javascript" src="__JS__/admin.js"></script>
+        <link rel="stylesheet" type="text/css" href="__BOWER__/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="__CSS__/admin_custom.css">
+    </head>
+    <body>
+    <!--[if lt IE 8]>
+    <div class="browsehappy">当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.</div>
+    <![endif]-->
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-2">
+                     <form class="login-form" method="post" action="{:U('System/check')}">
+                        <fieldset>
+                                <h3 class="welcome"><i class="login-logo"></i>blog</h3>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <input type="text" name="loginName" placeholder="用户名" class="form-control" required title="请填写用户名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <input type="password" name="loginPwd" placeholder="密码" class="form-control" required title="请填写密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <button class="btn-block primary ajax-post" target-form="login-form" type="submit">登录</button>
+                                    <a class="btn-link" href="/">返回首页</a>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="col-md-5">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

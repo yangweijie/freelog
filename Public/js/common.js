@@ -260,7 +260,14 @@ $(function(){
 function ajaxForm(ele, target, data, callback){
 	var that = ele;
 	var callback = callback || false;
-	$.post(target,data).success(function(data){
+	var type  =  $(that).attr('method') || 'post';
+	$.ajax({
+		url: target,
+		type: type,
+		dataType: 'json',
+		data: data,
+	})
+	.done(function(data) {
 		if (data.code >= 200 && data.code < 400) {
 			console.log('success');
 			if (data.url) {
@@ -284,6 +291,12 @@ function ajaxForm(ele, target, data, callback){
 				}
 			}, 1500);
 		}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
 	});
 
 	//搜索
