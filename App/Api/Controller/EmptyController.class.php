@@ -219,6 +219,7 @@ class EmptyController extends RestController{
                     if(M('Config')->where($map)->delete()){
                         S('DB_CONFIG_DATA',null);
                         //记录行为
+                        $url = '/admin.php/Config/index';
                         $data = '删除成功';
                     } else {
                         $code = 412;
