@@ -89,6 +89,7 @@ $(function(){
 			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
 			$.post(target,query).success(function(data){
 				if (data.code >= 200 && data.code < 400) {
+					console.log(data);
 					console.log('success');
 					if (data.url) {
 						notify(data.info + ' 页面即将自动跳转~','success');
@@ -108,6 +109,14 @@ $(function(){
 							location.href = data.url;
 						}
 					}, 1500);
+				}
+			}).error(function(jqXHR, textStatus, errorThrown) {
+				$(that).removeClass('disabled').prop('disabled',false);
+				var code = jqXHR.status;
+				if(404 == code ){
+					notify(data.info ,'error');
+				}else if(412 == code){
+					notify('记录已经被删除了' ,'error');
 				}
 			});
 		}
@@ -191,6 +200,7 @@ $(function(){
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
+						$(that).removeClass('disabled').prop('disabled',false);
 						var code = jqXHR.status;
 						console.log(jqXHR);
 						if(404 == code ){
@@ -245,7 +255,7 @@ $(function(){
 			error: function(jqXHR, textStatus, errorThrown) {
 				var code = jqXHR.status;
 				if(404 == code ){
-					notify(data.info ,'error');
+					notify(jqXHR.responseJSON.info ,'error');
 				}else if(412 == code){
 					notify('记录已经被删除了' ,'error');
 				}
@@ -261,6 +271,9 @@ function ajaxForm(ele, target, data, callback){
 	var that = ele;
 	var callback = callback || false;
 	var type  =  $(that).attr('method') || 'post';
+	if('DELETE' == type && data){
+		target += '?'+ data;
+	}
 	$.ajax({
 		url: target,
 		type: type,
@@ -276,7 +289,7 @@ function ajaxForm(ele, target, data, callback){
 				notify(data.info ,'success');
 			}
 			if(callback)
-				callback();
+				callback(data);
 			setTimeout(function(){
 				$(that).removeClass('disabled').prop('disabled',false);
 				if(data.url)
@@ -292,11 +305,16 @@ function ajaxForm(ele, target, data, callback){
 			}, 1500);
 		}
 	})
-	.fail(function() {
-		console.log("error");
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		var code = jqXHR.status;
+		if(404 == code ){
+			notify(jqXHR.responseJSON.info ,'error');
+		}else if(412 == code){
+			notify('记录已经被删除了' ,'error');
+		}
 	})
 	.always(function() {
-		console.log("complete");
+		// console.log("complete");
 	});
 
 	//搜索
