@@ -114,8 +114,8 @@ $config = array(
     //微信相关
     'WEIXIN'=>array(
         'TOKEN'  => 'freelog',
-        'AESKEY' => 'PbYuJRJ1UKYzpZoH7PUA6MQySGaqiLTit0XveNPtWQ',
         'APPID'  => 'wx72e0b206f3fb96af',
+        'AESKEY' => 'PbYuJRJ1UKYzpZoH7PUA6MQySGaqiLTit0XveNPtWQ',
         'SECRET' => 'e733caf9234ed2ea1342e85366172513',
     ),
 );

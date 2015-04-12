@@ -14,10 +14,13 @@ class WeixinController extends CommonController {
     }
 
     public function index(){
-    	$wechatauth = new WechatAuth(C('WEIXIN.APPID'), C('WEIXIN.SECRET'));
-        $result = $wechatauth->getServerIp();
+    	$wechatauth = new WechatAuth(C('WEIXIN.APPID'), C('WEIXIN.SECRET'), C(''));
+    	$access_token = $wechatauth->getAccessToken();
+        $result = $wechatauth->getServerIp($access_token);
+        if(isset($result['errcode']))
+        	$this->error($result['errmsg']);
     	slog($result);
-    	$this->assign('ip', $result);
+    	$this->assign('ip', $result['ip_list']);
     	$this->display();
     }
 }

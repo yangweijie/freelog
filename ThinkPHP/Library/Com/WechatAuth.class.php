@@ -147,8 +147,8 @@ class WechatAuth {
         }
     }
 
-    public function getServerIp(){
-        return $this->api('getcallbackip');
+    public function getServerIp($token){
+        return $this->api('getcallbackip', array('access_token'=>$token));
     }
 
     /**
