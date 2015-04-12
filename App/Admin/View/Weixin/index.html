@@ -1,0 +1,15 @@
+<extend name="Public/base" />
+<block name="body">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <table class="table">
+        	<thead><td>微信服务器IP：</td></thead>
+        	<tbody>
+        		<volist name="ip" id="vo">
+        			<tr><td>{$vo}</td></tr>
+        		</volist>
+        	</tbody>
+        </table>
+    </div>
+    <div class="col-md-4"></div>
+</block>

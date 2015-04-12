@@ -12,7 +12,7 @@
 namespace Com;
 
 class WechatAuth {
-    
+
     /* 消息类型常量 */
     const MSG_TYPE_TEXT     = 'text';
     const MSG_TYPE_IMAGE    = 'image';
@@ -23,9 +23,9 @@ class WechatAuth {
     const MSG_TYPE_LOCATION = 'location';
     const MSG_TYPE_LINK     = 'link';
     const MSG_TYPE_EVENT    = 'event';
-    
+
     /* 二维码类型常量 */
-    const QR_SCENE       = 'QR_SCENE';        
+    const QR_SCENE       = 'QR_SCENE';
     const QR_LIMIT_SCENE = 'QR_LIMIT_SCENE';
 
     /**
@@ -89,7 +89,7 @@ class WechatAuth {
 
     public function getRequestCodeURL($redirect_uri, $state = null,
         $scope = 'snsapi_userinfo'){
-        
+
         $query = array(
             'appid'         => $this->appId,
             'redirect_uri'  => $redirect_uri,
@@ -126,7 +126,7 @@ class WechatAuth {
                 $param['grant_type'] = 'authorization_code';
                 $url = "{$this->oauthApiURL}/oauth2/access_token";
                 break;
-            
+
             default:
                 throw new \Exception('不支持的grant_type类型！');
                 break;
@@ -145,6 +145,10 @@ class WechatAuth {
         } else {
             throw new \Exception('获取微信access_token失败！');
         }
+    }
+
+    public function getServerIp(){
+        return $this->api('getcallbackip');
     }
 
     /**
@@ -177,7 +181,7 @@ class WechatAuth {
 
         $filename = realpath($filename);
         if(!$filename) throw new \Exception('资源路径错误！');
-        
+
         $file = array('media' => "@{$filename}");
         $url  = "{$this->mediaURL}/media/upload";
         $data = self::http($url, $param, $file, 'POST');
@@ -209,7 +213,7 @@ class WechatAuth {
      * @param  string $type    推送消息类型
      */
     public function messageCustomSend($openid, $content, $type = self::MSG_TYPE_TEXT){
-        
+
         //基础数据
         $data = array(
             'touser'=>$openid,
@@ -504,10 +508,10 @@ class WechatAuth {
         if(strtoupper($method) == 'POST'){
             $opts[CURLOPT_POST] = 1;
             $opts[CURLOPT_POSTFIELDS] = $data;
-            
+
             if(is_string($data)){ //发送JSON数据
                 $opts[CURLOPT_HTTPHEADER] = array(
-                    'Content-Type: application/json; charset=utf-8',  
+                    'Content-Type: application/json; charset=utf-8',
                     'Content-Length: ' . strlen($data),
                 );
             }
@@ -561,8 +565,8 @@ class WechatAuth {
         $data = array();
         list(
             $data['media_id'],
-            $data['title'], 
-            $data['description'], 
+            $data['title'],
+            $data['description'],
         ) = $video;
 
         return $data;
@@ -575,9 +579,9 @@ class WechatAuth {
     private static function music($music){
         $data = array();
         list(
-            $data['title'], 
-            $data['description'], 
-            $data['musicurl'], 
+            $data['title'],
+            $data['description'],
+            $data['musicurl'],
             $data['hqmusicurl'],
             $data['thumb_media_id'],
         ) = $music;
@@ -588,10 +592,10 @@ class WechatAuth {
     /**
      * 构造图文信息
      * @param  array $news 要回复的图文内容
-     * [    
+     * [
      *      0 => 第一条图文信息[标题，说明，图片链接，全文连接]，
      *      1 => 第二条图文信息[标题，说明，图片链接，全文连接]，
-     *      2 => 第三条图文信息[标题，说明，图片链接，全文连接]， 
+     *      2 => 第三条图文信息[标题，说明，图片链接，全文连接]，
      * ]
      */
     private static function news($news){
@@ -610,5 +614,4 @@ class WechatAuth {
         $data['articles']     = $articles;
         return $data;
     }
-
 }
