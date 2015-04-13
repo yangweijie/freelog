@@ -2,6 +2,9 @@
 <block name="js">
 	<script type="text/javascript">
 		var url = '{:U()}';
+        $(function(){
+            $('a[href="'+url+'"]').parent().addClass('active');
+        });
 	</script>
 </block>
 <block name="body">

@@ -13,6 +13,7 @@ class WeixinController extends CommonController {
     	}
     }
 
+    //首页
     public function index(){
     	$wechatauth = new WechatAuth(C('WEIXIN.APPID'), C('WEIXIN.SECRET'), C(''));
     	$access_token = $wechatauth->getAccessToken();
@@ -23,4 +24,10 @@ class WeixinController extends CommonController {
     	$this->assign('ip', $result['ip_list']);
     	$this->display();
     }
+
+    //菜单
+    public function menu(){
+        $this->display();
+    }
+
 }

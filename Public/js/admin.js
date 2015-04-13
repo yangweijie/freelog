@@ -121,8 +121,8 @@ $(function(){
     }
 })
 
-function highlight_sidebar(url) {
-    $('.nav-collapse>.nav>li').removeClass('active');
+function highlight_menu(url) {
+    $('.nav li').removeClass('active');
     $('.nav .dropdown-menu>li>a[href*="'+url+'"]').parent().addClass('active').parents('.dropdown').addClass('active');
     $('.nav-collapse .nav li a[href*="'+url+'"]').parent().addClass('active');
 }
@@ -167,12 +167,7 @@ function showBtn() {
     }
 }
 
-//导航高亮
-function highlight_subnav(url){
-    $('#typecho-nav-list ul.child li').find('a[href*="'+url+'"]').closest('li').addClass('focus');
-}
-
 $(function(){
     //导航子页面高亮选中
-    highlight_sidebar(url);
+    highlight_menu(url);
 });
