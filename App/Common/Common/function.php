@@ -408,6 +408,19 @@ function download_file($file, $o_name = '') {
 }
 
 /**
+ * 格式化字节大小
+ * @param  number $size      字节数
+ * @param  string $delimiter 数字和单位分隔符
+ * @return string            格式化后的带单位的大小
+ * @author yangweijie <917647288@qq.com>
+ */
+function format_bytes($size, $delimiter = '') {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
+    return round($size, 2) . $delimiter . $units[$i];
+}
+
+/**
  * Description 截取指定长度的字符串 微博使用 汉字或全角字符占1个长度, 英文字符占0.5个长度
  * @param string $str
  * @param int $len = 140 截取长度

@@ -1,0 +1,38 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title location">
+        <h2>图片</h2>
+    </div>
+    <div class="data-table table-striped"></div>
+    <div class="typecho-table-wrap">
+    <table class="table table-hover" id="del_table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>预览</th>
+                <th>上传时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            <notempty name="list">
+            <volist name="list" id="pic">
+                <tr>
+                    <td>{$pic.id}</td>
+                    <td><a href="{$pic.id|get_cover}" target="_blank"><img src="{$pic.id|get_cover}" height="80"></a></td>
+                    <td>{$pic.create_time|date="Y-m-d h:i:s",###}</td>
+                </tr>
+            </volist>
+            <else/>
+            <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+            </notempty>
+        </tbody>
+    </table>
+    </div>
+    <!-- 分页 -->
+    <div class="pagination">
+        <div class="pull-right">
+        {$_page}
+        </div>
+    </div>
+</block>

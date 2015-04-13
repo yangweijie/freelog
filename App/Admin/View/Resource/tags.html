@@ -20,7 +20,6 @@
         </div>
     </div>
     <div class="typecho-table-wrap">
-    <form action="/api.php/config" method="DELETE" id="del_form">
         <table class="table table-hover" id="del_table">
             <thead>
                 <tr>
@@ -31,11 +30,11 @@
             </thead>
             <tbody>
                 <notempty name="list">
-                <volist name="list" id="config">
+                <volist name="list" id="tag">
                     <tr>
-                        <td>{$config.id}</td>
-                        <td>{$config.title}</td>
-                        <td>{$config.count}</td>
+                        <td>{$tag.id}</td>
+                        <td>{$tag.title}</td>
+                        <td>{$tag.count}</td>
                     </tr>
                 </volist>
                 <else/>
@@ -43,7 +42,6 @@
                 </notempty>
             </tbody>
         </table>
-    </form>
     </div>
     <!-- 分页 -->
     <div class="pagination">
