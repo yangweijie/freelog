@@ -6,6 +6,7 @@ $config = array(
     'URL_CASE_INSENSITIVE'=>true,
     'URL_REWRITE'=>2,
     'VAR_PAGE'=>'page',
+    'DEFAULT_FILTER'=> 'addslashes,htmlspecialchars',
 	/* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => '127.0.0.1', // 服务器地址

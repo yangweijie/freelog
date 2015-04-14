@@ -2,9 +2,11 @@
 namespace Home\Controller;
 class UserController extends HomeController{
 
-	public function login($nickname = '', $pwd= ''){
+	public function login(){
 		if(IS_POST){ //登录验证
 			$Member = D('Member');
+			$nickname = I('post.nickname');
+			$pwd = I('post.pwd');
 			$uid = $Member->checkLogin($nickname, $pwd);
 
 			if(0 < $uid){
@@ -29,9 +31,11 @@ class UserController extends HomeController{
 	}
 
 	//注册
-	public function reg($nickname = '', $pwd = ''){
+	public function reg(){
 		if(IS_POST){ //注册用户
 			$Member = D('Member');
+			$nickname = I('post.nickname');
+			$pwd = I('post.pwd');
 			$data = $Member->create(array('nickname'=>$nickname, 'pwd'=>$pwd));
 			if($data){
 				$Member->startTrans();
