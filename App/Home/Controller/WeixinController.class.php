@@ -30,9 +30,8 @@ class WeixinController extends Controller{
 
         /* 获取请求信息 */
         $data = $wechat->request();
-
+        slog($data);
         if($data && is_array($data)){
-            slog($data);
             switch ($data['MsgType']) {
                 //事件
                 case Wechat::MSG_TYPE_EVENT:
