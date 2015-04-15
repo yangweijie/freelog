@@ -34,8 +34,8 @@ class WeixinController extends Controller{
         if($data && is_array($data)){
             slog($data);
             switch ($data['MsgType']) {
-                //订阅提示消息
-                case 'event':
+                //事件
+                case Wechat::MSG_TYPE_EVENT:
                     switch ($data['Event']) {
                         case Wechat::MSG_EVENT_SUBSCRIBE:
                             $wechat->response('欢迎关注freelog, 你可以留言引号内内容获得本账号的某些服务比如: 回复"听大白"， 会收到一条语音消息, 回复“看视频”，会收到JobDeer官方介绍视频，回复"看图片"，看到一个Jobdeer的三行广告，回复“推荐文章”，收到一个推荐的图文消息，回复“功能菜单”，收到欢迎文本', Wechat::MSG_TYPE_TEXT);
