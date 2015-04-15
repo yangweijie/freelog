@@ -324,8 +324,6 @@ function ajaxForm(ele, target, data, callback){
         return false;
     });
 }
-/**顶部通知栏*/
-var content = $('body');
 
 window.notify = function (text,c, reload) {
 	text = text||'default';
