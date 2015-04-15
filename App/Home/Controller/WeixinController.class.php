@@ -41,10 +41,10 @@ class WeixinController extends Controller{
                     $this->responseText($data['content']);
                     break;
                 default:
+                    slog($data);
                     $wechat->response('其他功能尚在开发中', Wechat::MSG_TYPE_TEXT);
                     break;
             }
-            slog($data);
             /**
              * 你可以在这里分析数据，决定要返回给用户什么样的信息
              * 接受到的信息类型有9种，分别使用下面九个常量标识
