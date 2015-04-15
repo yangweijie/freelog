@@ -32,6 +32,18 @@ class WeixinController extends Controller{
         $data = $wechat->request();
 
         if($data && is_array($data)){
+            switch ($data['MsgType']) {
+                //订阅提示消息
+                case Wechat::MSG_EVENT_SUBSCRIBE:
+                    $wechat->response('欢迎关注freelog, 你可以留言引号内内容获得本账号的某些服务比如: 回复"听大白"， 会收到一条语音消息, 回复“看视频”，会收到JobDeer官方介绍视频，回复"看图片"，看到一个Jobdeer的三行广告，回复“推荐文章”，收到一个推荐的图文消息，回复“功能菜单”，收到欢迎文本', Wechat::MSG_TYPE_TEXT);
+                    break;
+                case Wechat::MSG_TYPE_TEXT:
+                    $this->responseText($data['content']);
+                    break;
+                default:
+                    $wechat->response('其他功能尚在开发中', Wechat::MSG_TYPE_TEXT);
+                    break;
+            }
             slog($data);
             /**
              * 你可以在这里分析数据，决定要返回给用户什么样的信息
@@ -73,6 +85,23 @@ class WeixinController extends Controller{
              * $wechat->replyNewsOnce($title, $discription, $url, $picurl); //回复单条图文消息
              *
              */
+        }
+    }
+
+    public function responseText($text){
+        if(false !== strpos('听大白', $text)){
+            //回复音频消息
+            $wechat->replyVoice(204248804);
+        }else if(false !== strpos('看视频', $text)){
+            //回复视频消息
+        }else if(false !== strpos('看图片', $text)){
+            //回复图片消息
+            $wechat->replyImage(204248824);
+        }else if(false !== strpos('推荐文章', $text)){
+            //回复单条图文消息
+            $wechat->replyNewsOnce('最新一篇文章', 'Hello, Weixin', 'http://freelog.coding.io/Post/44.html', 'http://freelog.coding.io/Uploads/ueditor/image/20150326/551419ea33999.jpg');
+        }else{
+            $wechat->replyText('欢迎关注freelog, 你可以留言引号内内容获得本账号的某些服务比如: 回复"听大白"， 会收到一条语音消息, 回复“看视频”，会收到JobDeer官方介绍视频，回复"看图片"，看到一个Jobdeer的三行广告，回复“推荐文章”，收到一个推荐的图文消息，回复“功能菜单”，收到欢迎文本');
         }
     }
 
