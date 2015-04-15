@@ -1,0 +1,62 @@
+<extend name="Public/base" />
+
+<block name="body">
+    <div class="main-title location">
+        <h2>文章</h2>
+    </div>
+
+    <div class="data-table table-striped">
+        <div class="clearfix">
+        <!-- 高级搜索 -->
+        <div class="search-form pull-right clearfix form-inline">
+            <div class="input-group mb10">
+                <form action="{:U()}" method="GET">
+                    <input type="text" name="title" class="form-control text-s" value="{:I('title')}" placeholder="请输入标签名称">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </form>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+    <div class="typecho-table-wrap">
+        <table class="table table-hover" id="del_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>描述</th>
+                    <th>作者</th>
+                    <th>标签</th>
+                    <th>浏览数</th>
+                    <th>最后更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <notempty name="list">
+                <volist name="list" id="post">
+                    <tr>
+                        <td>{$post.id}</td>
+                        <td>{$post.title}</td>
+                        <td>{$post.description}</td>
+                        <td>{$post.author}</td>
+                        <td>{$post.tags}</td>
+                        <td>{$post.views}</td>
+                        <td>{$post.update_at}</td>
+                        <td><a href="/api.php/post?id={$post.id}" class="ajax-delete confirm">删除</a></td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+                </notempty>
+            </tbody>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <div class="pagination">
+        <div class="pull-right">
+        {$_page}
+        </div>
+    </div>
+</block>

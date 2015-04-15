@@ -100,7 +100,7 @@ class CommonController extends Controller {
             //order置空
         }else if ( isset($REQUEST['_order']) && isset($REQUEST['_field']) && in_array(strtolower($REQUEST['_order']),array('desc','asc')) ) {
             $options['order'] = '`'.$REQUEST['_field'].'` '.$REQUEST['_order'];
-        }elseif( $order==='' && empty($options['order']) && !empty($pk) ){
+        }elseif( $order === '' && empty($options['order']) && !empty($pk) ){
             $options['order'] = $pk.' desc';
         }elseif($order){
             $options['order'] = $order;
@@ -108,7 +108,7 @@ class CommonController extends Controller {
         unset($REQUEST['_order'],$REQUEST['_field']);
 
         $options['where'] = array_filter(array_merge( (array)$base, /*$REQUEST,*/ (array)$where ),function($val){
-            if($val===''||$val===null){
+            if($val === '' || $val === null){
                 return false;
             }else{
                 return true;

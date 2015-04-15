@@ -35,16 +35,26 @@ class PostModel extends Model{
             return $content;
     }
 
-    protected function _after_find(&$result,$options) {
+    protected function _after_find(&$result, $options) {
         if(in_array($result['type'], array('picture', 'music', 'video'))){
             $result['content'] = json_decode($result['content'], 1);
         }
         // $result['update_at'] = date('Y/m/d H:i:s A', strtotime($result['update_at']));
     }
 
-    protected function _after_select(&$result,$options){
+    protected function _after_select(&$result, $options){
         foreach($result as &$record){
-            $this->_after_find($record,$options);
+            $this->_after_find($record, $options);
+        }
+        if($result){
+            $member_ids = array_column($result, 'member_id');
+            $authors = M('Member')->where(array('id'=>array('in', $member_ids)))->getField('id,nickname');
+            foreach ($result as &$record) {
+                if(isset($authors[$record['member_id']]))
+                    $record['author'] = $authors[$record['member_id']];
+                else
+                    $record['author'] = '系统发布';
+            }
         }
     }
 
@@ -54,7 +64,7 @@ class PostModel extends Model{
     }
 
     // 更新成功后的回调方法
-    protected function _after_update($data,$options) {
+    protected function _after_update($data, $options) {
         //处理标签
         $tags = $data['tags'];
         $tags = explode(',', $tags);

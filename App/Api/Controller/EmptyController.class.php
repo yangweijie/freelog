@@ -110,12 +110,12 @@ class EmptyController extends RestController{
                 }
                 break;
             case 'delete':// 删除资源
-                $id = intval($name);
+                $id = I('get.id',0);
                 slog($id);
                 if($find = $model->find($id)){
                     $result = $model->delete($id);
-
                     $code = $result? 200: 404;
+                    $url = $_SERVER['HTTP_REFERER'];
                 }else{
                     $result = false;
                     $data = "record not found";

@@ -7,8 +7,7 @@ class ResourceController extends CommonController {
     //标签
     public function tags(){
     	/* 查询条件初始化 */
-        $map = array();
-        $map  = array('status' => 1);
+        $map = array('status' => 1);
         if(isset($_GET['title'])){
             $map['title'] = array('like', '%'.(string)I('title').'%');
         }
@@ -22,8 +21,7 @@ class ResourceController extends CommonController {
     //图片
     public function pics(){
         /* 查询条件初始化 */
-        $map = array();
-        $map  = array('status' => 1);
+        $map = array('status' => 1);
         if(isset($_GET['title'])){
             $map['title'] = array('like', '%'.(string)I('title').'%');
         }
@@ -36,8 +34,7 @@ class ResourceController extends CommonController {
 
     public function files(){
         /* 查询条件初始化 */
-        $map = array();
-        $map  = array('status' => 1);
+        $map = array('status' => 1);
         if(isset($_GET['title'])){
             $map['title'] = array('like', '%'.(string)I('title').'%');
         }
