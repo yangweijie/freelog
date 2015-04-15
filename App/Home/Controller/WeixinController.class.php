@@ -32,6 +32,7 @@ class WeixinController extends Controller{
         $data = $wechat->request();
 
         if($data && is_array($data)){
+            slog($data);
             switch ($data['MsgType']) {
                 //订阅提示消息
                 case Wechat::MSG_EVENT_SUBSCRIBE:
@@ -41,7 +42,6 @@ class WeixinController extends Controller{
                     $this->responseText($data['content']);
                     break;
                 default:
-                    slog($data);
                     $wechat->response('其他功能尚在开发中', Wechat::MSG_TYPE_TEXT);
                     break;
             }
