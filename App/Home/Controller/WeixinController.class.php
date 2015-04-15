@@ -46,7 +46,7 @@ class WeixinController extends Controller{
                     }
                     break;
                 case Wechat::MSG_TYPE_TEXT:
-                    $this->responseText($data['content']);
+                    $this->onText($data['Content']);
                     break;
                 default:
                     $wechat->response('其他功能尚在开发中', Wechat::MSG_TYPE_TEXT);
@@ -95,7 +95,7 @@ class WeixinController extends Controller{
         }
     }
 
-    public function responseText($text){
+    public function onText($text){
         slog($text);
         if(false !== strpos('听大白', $text)){
             //回复音频消息
