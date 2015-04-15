@@ -25,11 +25,12 @@ class Wechat {
 
     /* 事件类型常量 */
     const MSG_EVENT_SUBSCRIBE         = 'subscribe';
+    const MSG_EVENT_UNSUBSCRIBE       = 'unsubscribe';
     const MSG_EVENT_SCAN              = 'SCAN';
     const MSG_EVENT_LOCATION          = 'LOCATION';
     const MSG_EVENT_CLICK             = 'CLICK';
     const MSG_EVENT_MASSSENDJOBFINISH = 'MASSSENDJOBFINISH';
-    
+
     /**
      * 微信推送过来的数据
      * @var array
@@ -48,7 +49,7 @@ class Wechat {
             if(IS_GET){
                 exit($_GET['echostr']);
             } else {
-                $xml = file_get_contents("php://input"); 
+                $xml = file_get_contents("php://input");
                 $xml = new \SimpleXMLElement($xml);
                 $xml || exit;
 
@@ -204,7 +205,7 @@ class Wechat {
         /* 获取数据 */
         $data = array($_GET['timestamp'], $_GET['nonce'], $token);
         $sign = $_GET['signature'];
-        
+
         /* 对数据进行字典排序 */
         sort($data, SORT_STRING);
 
@@ -248,8 +249,8 @@ class Wechat {
         $data = array();
         list(
             $data['MediaId'],
-            $data['Title'], 
-            $data['Description'], 
+            $data['Title'],
+            $data['Description'],
         ) = $video;
 
         return $data;
@@ -262,9 +263,9 @@ class Wechat {
     private static function music($music){
         $data = array();
         list(
-            $data['Title'], 
-            $data['Description'], 
-            $data['MusicUrl'], 
+            $data['Title'],
+            $data['Description'],
+            $data['MusicUrl'],
             $data['HQMusicUrl'],
             $data['ThumbMediaId'],
         ) = $music;
@@ -275,10 +276,10 @@ class Wechat {
     /**
      * 构造图文信息
      * @param  array $news 要回复的图文内容
-     * [    
+     * [
      *      0 => 第一条图文信息[标题，说明，图片链接，全文连接]，
      *      1 => 第二条图文信息[标题，说明，图片链接，全文连接]，
-     *      2 => 第三条图文信息[标题，说明，图片链接，全文连接]， 
+     *      2 => 第三条图文信息[标题，说明，图片链接，全文连接]，
      * ]
      */
     private static function news($news){
