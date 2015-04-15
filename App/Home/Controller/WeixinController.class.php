@@ -37,7 +37,7 @@ class WeixinController extends Controller{
                 case Wechat::MSG_TYPE_EVENT:
                     switch ($data['Event']) {
                         case Wechat::MSG_EVENT_SUBSCRIBE:
-                            $wechat->response('欢迎关注freelog, 你可以留言引号内内容获得本账号的某些服务比如: 回复"听大白"， 会收到一条语音消息, 回复“看视频”，会收到JobDeer官方介绍视频，回复"看图片"，看到一个Jobdeer的三行广告，回复“推荐文章”，收到一个推荐的图文消息，回复“功能菜单”，收到欢迎文本', Wechat::MSG_TYPE_TEXT);
+                            $wechat->replyText('欢迎关注freelog, 你可以留言引号内内容获得本账号的某些服务比如: 回复"听大白"， 会收到一条语音消息, 回复“看视频”，会收到JobDeer官方介绍视频，回复"看图片"，看到一个Jobdeer的三行广告，回复“推荐文章”，收到一个推荐的图文消息，回复“功能菜单”，收到欢迎文本');
                             break;
                         //退订
                         case  Wechat::MSG_EVENT_UNSUBSCRIBE:
@@ -96,9 +96,10 @@ class WeixinController extends Controller{
     }
 
     public function responseText($text){
+        slog($text);
         if(false !== strpos('听大白', $text)){
             //回复音频消息
-            $wechat->replyVoice(204248804);
+            $wechat->replyMusic('大白balala', '超能陆战队', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav', '204248804');
         }else if(false !== strpos('看视频', $text)){
             //回复视频消息
         }else if(false !== strpos('看图片', $text)){
