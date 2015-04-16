@@ -64,6 +64,7 @@ class UserController extends HomeController{
 		$info = M('Member')->find($uid);
 		$oauths = D('Sns')->extendOauth($uid);
 		$this->assign('oauths', $oauths);
+		$this->assign('title', "个人信息");
 		$this->assign('info', $info);
 		$this->display();
 	}
