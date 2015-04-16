@@ -16,7 +16,7 @@ class IndexController extends HomeController {
     	$tags = I('get.tag');
         if($tags){
             $ids = $postModel->where(" FIND_IN_SET('{$tags}',tags)")->getField('id', true);
-            $this->assign('title', "标签 <i>{$tags}</i>下的文章");
+            $this->assign('title', "标签 <i>{$tags}</i> 下的文章");
             if(!empty($ids))
             	$map['id'] = array('in',$ids);
         }
