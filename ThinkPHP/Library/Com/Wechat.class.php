@@ -44,10 +44,14 @@ class Wechat {
      */
     public function __construct($token){
         if($token){
-            self::auth($token) || exit;
+            if(isset($_GET['timestamp']) && isset($_GET['nonce']) && isset($_GET['signature']))
+                self::auth($token) || exit;
 
             if(IS_GET){
-                exit($_GET['echostr']);
+                if(isset($_GET['echostr']))
+                    exit($_GET['echostr']);
+                else
+                    exit;
             } else {
                 $xml = file_get_contents("php://input");
                 $xml = new \SimpleXMLElement($xml);
@@ -91,10 +95,12 @@ class Wechat {
         } else {
             $data[ucfirst($type)] = $content;
         }
+        slog('正在构建数据');
 
         /* 转换数据为XML */
         $xml = new \SimpleXMLElement('<xml></xml>');
         self::data2xml($xml, $data);
+        slog($xml->asXML());
         exit($xml->asXML());
     }
 
@@ -140,7 +146,7 @@ class Wechat {
      * @param  string $hqmusicurl     高品质音乐链接
      * @param  string $thumb_media_id 缩略图ID
      */
-    public function replyMusic($title, $discription, $musicurl, $hqmusicurl, $thumb_media_id){
+    public function replyMusic($title, $discription, $musicurl, $hqmusicurl, $thumb_media_id =''){
         return $this->response(func_get_args(), self::MSG_TYPE_MUSIC);
     }
 
@@ -267,9 +273,9 @@ class Wechat {
             $data['Description'],
             $data['MusicUrl'],
             $data['HQMusicUrl'],
-            $data['ThumbMediaId'],
         ) = $music;
-
+        if(!empty($music['ThumbMediaId']))
+            $data['ThumbMediaId'] = $music['ThumbMediaId'];
         return $data;
     }
 

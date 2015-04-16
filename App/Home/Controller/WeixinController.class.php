@@ -16,6 +16,8 @@ use Com\Wechat;
 use Com\WechatAuth;
 
 class WeixinController extends Controller{
+
+    public $wc;
     /**
      * 微信消息接口入口
      * 所有发送到微信的消息都会推送到该操作
@@ -26,13 +28,11 @@ class WeixinController extends Controller{
         $token = C('WEIXIN.TOKEN'); //微信后台填写的TOKEN
 
         /* 加载微信SDK */
-        $wechat = new Wechat($token);
+        $this->wc = $wechat = new Wechat($token);
 
         /* 获取请求信息 */
         $data = $wechat->request();
         slog($data);
-        $wechat->replyText('测试');
-        exit();
         if($data && is_array($data)){
             switch ($data['MsgType']) {
                 //事件
@@ -99,11 +99,14 @@ class WeixinController extends Controller{
 
     public function onText($text){
         slog($text);
+        $wechat = $this->wc;
+        //以下媒体id 是写死的，而且除了音乐调用成功，其他的视频和图片，完全不能正常返回消息。因为不是认证用户没有权限使用接口
         if(false !== strpos('听大白', $text)){
             //回复音频消息
-            $wechat->replyMusic('大白balala', '超能陆战队', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav', '204248804');
+            $wechat->replyMusic('大白balala', '超能陆战队', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav', 'http://att.chinauui.com/day_150309/20150309_aadb238f5998c1a79953qvZzAB41QvBj.wav');
         }else if(false !== strpos('看视频', $text)){
             //回复视频消息
+            $wechat->replyVideo(204247676, 'JobDeer官方视频', '欢迎大家观看视频，了解竞鹿如何帮助候选人快速换工作的。');
         }else if(false !== strpos('看图片', $text)){
             //回复图片消息
             $wechat->replyImage(204248824);
@@ -115,7 +118,7 @@ class WeixinController extends Controller{
         }
     }
 
-    //获取带参二维码
+    //获取带参二维码 目前没权限，暂时不使用
     public function weixinQr($sence_id, $expire_seconds = 0){
         $wechatauth = new WechatAuth(C('WEIXIN.APPID'), C('WEIXIN.SECRET'));
         $result = $wechatauth->qrcodeCreate($sence_id, $expire_seconds);
