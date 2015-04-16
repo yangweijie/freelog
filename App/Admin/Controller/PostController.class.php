@@ -9,7 +9,7 @@ class PostController extends CommonController {
         $map = array();
         $map['type'] = $action;
         if($search = I('get.title','', 'trim')){
-        	$map['_string'] = "`title` LIKE '%{$search}%' OR `description` LIKE '%{$search}' OR `tags` LIKE '%{$search}%'";
+        	$map['_string'] = "`title` LIKE '%{$search}%' OR `description` LIKE '%{$search}' OR FIND_IN_SET('{$search}',tags)";
         }
         $this->meta_title = '文章管理';
         $this->_list(array('source' => 'Post', 'map' => $map, 'order' => '`id`', 'tpl'=>strtolower($action)));
