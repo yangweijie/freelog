@@ -19,10 +19,10 @@ class EmptyController extends RestController{
     public function _initialize(){
         $this->resource_name = strtolower(CONTROLLER_NAME);
         $this->messages = array(
-            'get'    => 'get',
-            'put'    => 'update',
-            'post'   => 'add',
-            'delete' => 'delete',
+            'get'    => '获取',
+            'put'    => '更新',
+            'post'   => '新增',
+            'delete' => '删除',
         );
         $config = S('DB_CONFIG_DATA');
         if (!$config) {
@@ -240,7 +240,7 @@ class EmptyController extends RestController{
         $response = array(
             'code'=>$code,
             'data'=>$data,
-            'info'=>"{$this->resource_name} {$this->messages[$this->_method]} succeed"
+            'info'=>$this->response_info($this->resource_name, $this->_method, 'succeed')
         );
         if($url)
             $response['url'] = $url;
@@ -248,14 +248,33 @@ class EmptyController extends RestController{
     }
 
     public function error($data, $code=404, $url=''){
-          $response = array(
+        $response = array(
             'code'=>$code,
-            'info'=>"{$this->resource_name} {$this->messages[$this->_method]} failed"
+            'info'=>$this->response_info($this->resource_name, $this->_method, 'failed')
         );
         if($data)
-            $response['info'] .= ". reason: {$data}";
+            $response['info'] .= ". 原因: {$data}";
         if($url)
             $response['url'] = $url;
         $this->response($response, $this->defaultType, $code);
+    }
+
+    private function response_info($resource, $method, $flag){
+        static $resource_name_strings = array(
+            'post'    => '博文',
+            'config'  => '配置',
+            'file'    => '文件',
+            'picture' => '图片',
+            'member'  => '用户',
+            'message' => '消息',
+            'sns'     => '第三方登录账号',
+            'tags'    => '标签',
+            'url'     => '外链',
+        );
+        $action_strings = $this->messages;
+        $resource_name = isset($resource_name_strings[$resource])? $resource_name_strings[$resource] : $resource;
+        $action = isset($action_strings[$method])? $action_strings[$method] : $method;
+        $action_flag = 'succeed' == $flag ? '成功' : '失败';
+        return sprintf('%s%s%s', $action, $resource_name, $action_flag);
     }
 }
