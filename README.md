@@ -50,4 +50,4 @@
 ## 支持本项目
 如果喜欢本项目，可以在coding上 https://coding.net/u/jaylabs/p/freelog/git 点收藏
 ## 投票
-本项目参加了Coding的 “HTML5云端CODING体验大赛”, 你可以访问 https://coding.net/event/html5/vote?page=2 找到最后的freelog 项目 点投票。新注册用户第二天才能投票哦(*^__^*) 
+本项目参加了Coding的 “HTML5云端CODING体验大赛”, 你可以访问 https://coding.net/event/html5/vote?page=3 找到最后的freelog 项目 点投票。新注册用户第二天才能投票哦(*^__^*) 
