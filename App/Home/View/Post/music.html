@@ -93,7 +93,7 @@
 
                         function buildUrl(selectedItem){
                             var playerUrl = 'http://box.baidu.com/widget/flash/bdspacesong.swf';
-                            var param = 'from=tiebasongwidget&url=&name=' + encodeURIComponent(_removeHtml(selectedItem.title)) + '&artist='+ encodeURIComponent(_removeHtml(selectedItem.author)) + '&extra='+ encodeURIComponent(_removeHtml(selectedItem.album_title))+ '&autoPlay=false&loop=true';
+                            var param = 'from=tiebasongwidget&url=&name=' + encodeURIComponent(_removeHtml(selectedItem.title)) + '&artist='+ encodeURIComponent(_removeHtml(selectedItem.author)) + '&extra='+ encodeURIComponent(_removeHtml(selectedItem.album_title))+ '&autoPlay=false&loop=false';
                             playerUrl += "?" + param;
                             return playerUrl;
                         }
