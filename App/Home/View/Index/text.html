@@ -1,6 +1,6 @@
 <div class="blog-post text">
     <present name="post.title"><h2 class="blog-post-title">{$post.title}</h2></present>
-    <p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id|get_nickname_by_uid}</a></p>
+    <p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.author}</a></p>
     <section class="blog-post-content">
     	{$post.content|htmlspecialchars_decode}
     </section>
