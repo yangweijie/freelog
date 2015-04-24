@@ -50,6 +50,17 @@ class PostController extends HomeController {
         }
 	}
 
+    public function parseMusic(){
+        $query_res = curl('http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.common&page_size=999', array('query'=>I('query')));
+        $query = json_decode($query_res, 1);
+        if(false !== $query){
+            $this->ajaxReturn($query);
+        }else{
+            slog('curl失败');
+            $this->error('查询失败');
+        }
+    }
+
     public function afterUpload(){
         $this->assign('type', 'upload');
         $this->display('video_extra_form');

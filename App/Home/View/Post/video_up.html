@@ -9,6 +9,27 @@
     var no_pic =  '__PUBLIC__/images/no-cover.png';
     </present>
     var uploadify_swf = '__BOWER__/uploadify/uploadify.swf';
+
+    function uploadMusic(file, data){
+        console.log(data);
+        var data = $.parseJSON(data);
+        console.log(data);
+        var src = '';
+        if(data.status){
+            var index = $('#music_list .item').length;
+            var item = [
+                '<li class="item">',
+                    '<input name="content['+index+'][id]" type="hidden" value="'+data.id+'" class="hide-data">',
+                    '<input name="content['+index+'][path]" value="'+data.name+'" class="form-control hide-data" readonly> ',
+                    '<input name="content['+index+'][title]" class="form-control hide-data" placeholder="标题">',
+                '</li>'
+            ];
+            $('#music_list').append(item.join(''));
+        } else {
+            notify(data.info);
+        }
+    }
+
     //上传图片
     /* 初始化上传插件 */
     $(function(){
@@ -43,25 +64,6 @@
             }
         });
     });
-
-    function uploadMusic(file, data){
-        console.log(data);
-        var data = $.parseJSON(data);
-        var src = '';
-        if(data.status){
-            var index = $('#music_list .item').length;
-            var item = [
-                '<li class="item">',
-                    '<input name="content['+index+'][id]" type="hidden" value="'+data.id+'" class="hide-data">',
-                    '<input name="content['+index+'][path]" value="'+data.name+'" class="form-control hide-data" readonly> ',
-                    '<input name="content['+index+'][title]" class="form-control hide-data" placeholder="标题">',
-                '</li>'
-            ];
-            $('#music_list').append(item.join(''));
-        } else {
-            notify(data.info);
-        }
-    }
 
     function uploadPicture(file, data){
         console.log(data);

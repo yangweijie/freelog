@@ -491,3 +491,36 @@ function del_file($file) {
     $file = file_iconv($file);
     @unlink($file);
 }
+
+function curl($url, $params, $is_post=0){
+    // $url.=(strpos($url,'?')?'&':'?').'run_test=1';//标记是在跑测试
+
+    if($slog_force_client_id=getenv('slog_force_client_id'))
+    {
+        $url.=(strpos($url,'?')?'&':'?').'slog_force_client_id='.$slog_force_client_id;
+    }
+
+    if(!$is_post){
+        $url .= (strpos($url,'?')?'&':'?').http_build_query($params);
+    }
+    slog($url);
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    if($is_post)
+    {
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params );
+    }
+
+    $result = curl_exec($ch);
+    if(curl_errno($ch))
+    {
+        slog('<h3>接口请求失败</h3>,url:'.$url.',错误信息'.curl_error($ch));
+        return false;
+    }
+    return $result;
+}

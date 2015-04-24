@@ -440,3 +440,17 @@ div.tagsinput span.tag a {
   color: #888;
   text-decoration: none;
 }
+
+.m-try {
+  float: left;
+  width: 20px;
+  height: 20px;
+  background: url('../images/try_music.gif') no-repeat;
+}
+
+.m-trying{
+  float: left;
+  width: 20px;
+  height: 20px;
+  background: url('../images/stop_music.gif') no-repeat;
+}

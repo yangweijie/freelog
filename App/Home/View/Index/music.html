@@ -3,7 +3,11 @@
 	<p class="blog-post-meta">{$post.update_at|friendly_datetime} by <a href="#">{$post.member_id|get_nickname_by_uid}</a></p>
 	<if condition="1 == count($post['content'])">
 		<p class="blog-post-content single">
+			<empty name="post.content.0.id">
+				<embed class="BDE_try_Music" allowfullscreen="false" pluginspage="http://www.macromedia.com/go/getflashplayer" src="{$post.content.0.path}" width=400 height=100 type="application/x-shockwave-flash" wmode="transparent" play="false" loop="false" menu="false" allowscriptaccess="never" scale="noborder">
+			<else />
 			<audio src="{$post.content.0.id|get_file}" preload="false"></audio>
+			</empty>
 			<div class="track-details">
 			  {$post.content.0.title}
 			</div>
