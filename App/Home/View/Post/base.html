@@ -28,8 +28,8 @@
             })();
             $(function(){
                 //单页高亮
-                $('.blog-nav .blog-nav-item').removeClass('active');
-                $('a.blog-nav-item[href="'+url+'"]').addClass('active');
+                $('a.blog-nav-item').parent().removeClass('active');
+                $('a.blog-nav-item[href="'+url+'"]').parent().addClass('active');
             })
         </script>
         <link rel="stylesheet" href="__BOWER__/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
