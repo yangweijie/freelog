@@ -15,7 +15,11 @@
 	<else/>
 		<volist name="post.content" id="music">
 			<p class="blog-post-content single">
-				<audio src="{$music.id|get_file}" preload="false"></audio>
+				<empty name="music.id">
+					<embed class="BDE_try_Music" allowfullscreen="false" pluginspage="http://www.macromedia.com/go/getflashplayer" src="{$music.path}" width=400 height=100 type="application/x-shockwave-flash" wmode="transparent" play="false" loop="false" menu="false" allowscriptaccess="never" scale="noborder">
+				<else />
+					<audio src="{$music.id|get_file}" preload="false"></audio>
+				</empty>
 				<div class="track-details">
 				  {$music.title}
 				</div>
