@@ -22,7 +22,7 @@
 4. 我的主页（我发布的新闻）
 5. 列表及分页列表支持图片多图的相册式预览（支持快捷键哦），音乐多个的话文章详情里是播放列表（别怪我没告诉你）
 6. 头像裁剪(差读取)
-7. 不同类型文章的详情页+社会化评论   
+7. 不同类型文章的详情页+社会化评论
 8. restful的api模块
 9. 后台（登录、登出、文件、图片列表、标签列表、文章列表、动态配置、微信iframe和服务器ip获取）
 10. 引入Socketlog chrome调试插件
@@ -32,13 +32,17 @@
 ![](http://i2.tietuku.com/d73306cfb759c1e1s.png "注册")
 ![](http://i2.tietuku.com/8be4e2fa669bc3b9s.png "个人信息")
 ![](http://i2.tietuku.com/e8b872720bc0544bs.png "发布") ![](http://i2.tietuku.com/a639b66c83bbe199s.png "发布文字") ![](http://i2.tietuku.com/f9075bbfdb45a16cs.png "定时发布图片") ![](http://i2.tietuku.com/91cc7001f778e453s.png "发布视频")![](http://i2.tietuku.com/ebb775d706aea252s.png "发布音乐")
-![](http://i2.tietuku.com/19eb1b3e533ad15as.png "标签") ![](http://i2.tietuku.com/0b209bb7ac34d723s.png "归档") 
+![](http://i1.tietuku.com/51c3707890986da2s.png)
+![](http://i1.tietuku.com/434a77b562ee8a12s.png)
+![](http://i1.tietuku.com/ab3aa6386c969187s.png)
+![](http://i1.tietuku.com/b05e90319a81bd60s.png)
+![](http://i2.tietuku.com/19eb1b3e533ad15as.png "标签") ![](http://i2.tietuku.com/0b209bb7ac34d723s.png "归档")
 ![](http://i2.tietuku.com/f61464cefbac5943s.png)
 ![](http://i2.tietuku.com/f6c54320478a193fs.png) ![](http://i2.tietuku.com/28a13861fe583a53s.png)
 ![](http://i2.tietuku.com/e201aed530812d16s.png)
 ![](http://i2.tietuku.com/9677e2c6a1ca31f8s.png)
 ![](http://i2.tietuku.com/20f9e80dbde76af3s.png)
-![](http://i2.tietuku.com/220097ea5ad6a9a4s.png) ![](http://i2.tietuku.com/6f8713dad87a8311s.png) ![](http://i2.tietuku.com/f4692e28adfadd1ds.png)![](http://i2.tietuku.com/77e4939bb50aaabds.png)  ![](http://i2.tietuku.com/76eb127c75b06d38s.png) ![](http://i2.tietuku.com/eac35beec33c9aces.png) 
+![](http://i2.tietuku.com/220097ea5ad6a9a4s.png) ![](http://i2.tietuku.com/6f8713dad87a8311s.png) ![](http://i2.tietuku.com/f4692e28adfadd1ds.png)![](http://i2.tietuku.com/77e4939bb50aaabds.png)  ![](http://i2.tietuku.com/76eb127c75b06d38s.png) ![](http://i2.tietuku.com/eac35beec33c9aces.png)
 ## TODO列表，希望有能力的童鞋能完成，自己锻炼下
 - 列表页视频可以弹出来看
 - 多个音频时 ，一个播放，其他的停止播放
@@ -50,4 +54,7 @@
 ## 支持本项目
 如果喜欢本项目，可以在coding上 https://coding.net/u/jaylabs/p/freelog/git 点收藏
 ## 投票
-本项目参加了Coding的 “HTML5云端CODING体验大赛”, 你可以访问 https://coding.net/event/html5/vote?page=3 找到最后的freelog 项目 点投票。新注册用户第二天才能投票哦(*^__^*) 
+本项目参加了Coding的 “HTML5云端CODING体验大赛”, 你可以访问 https://coding.net/event/html5/vote?page=3 找到最后的freelog 项目 点投票。新注册用户第二天才能投票哦(*^__^*)
+## 最近更新
+- 支持百度音乐搜索
+- 导航响应式了

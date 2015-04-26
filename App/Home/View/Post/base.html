@@ -80,7 +80,7 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="javascript:;" role="button" aria-expanded="false"><if condition="is_login()">{:session('user.nickname')}<else/>尚未登录</if></a></li>
+                        <li><a href="javascript:;" role="button" aria-expanded="false"><if condition="is_login()">{:session('user.nickname')}</if></a></li>
                         <if condition="is_login()">
                         <li><a class="blog-nav-item" href="{:U('/user/profile')}">个人信息</a></li>
                         <li><a class="blog-nav-item" href="{:U('/user/logout')}" class="ajax-get">退出</a></li>
